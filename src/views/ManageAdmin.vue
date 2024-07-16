@@ -1,0 +1,132 @@
+<script setup>
+import NavBar from '@/components/NavBar.vue'
+</script>
+
+<template>
+  <NavBar />
+  <div class="main-content">
+    <div class="manageadmin-container">
+      <div class="title">
+        <h1>Manage Admin</h1>
+      </div>
+      <div class="add-admin">
+        <router-link to="manage-admins/add-admin">Add Admin</router-link>
+      </div>
+      <div class="all-admin">
+        <div class="table">
+          <div class="head">
+            <h4>Name</h4>
+            <h4>Email</h4>
+            <h4>Role</h4>
+          </div>
+          <div class="body">
+            <div class="row">
+              <p>John Doe</p>
+              <p>achillesdrill@gmail.com</p>
+              <p>Owner</p>
+            </div>
+            <div class="row">
+              <p>Simeon</p>
+              <p>chinedu.simeon2020@gmail.com</p>
+              <p>Admin</p>
+            </div>
+            <div class="row">
+              <p>John Doe</p>
+              <p>jogndoe@gmail.com</p>
+              <p>Admin</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.manageadmin-container {
+  width: 80%;
+  margin: 30px auto 0;
+}
+
+.manageadmin-container {
+  margin-top: 100px;
+}
+
+.title {
+  color: var(--dark-1);
+}
+
+.manageadmin-container .title h1 {
+  font-family: 'Raleway';
+  background: #000;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.all-admin {
+  padding: 30px;
+  margin-top: 30px;
+  background: linear-gradient(30deg, var(--bright-1), #fff);
+  border-radius: 20px;
+}
+
+.table {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(10px, 2vw, 16px);
+}
+
+.head,
+.row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1em;
+  margin-bottom: 15px;
+}
+
+.head h4 {
+  font-family: 'Poppins';
+  color: #333;
+  text-align: center;
+}
+
+.row {
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.row p {
+  font-family: 'Montserrat';
+  text-align: center;
+}
+
+.add-admin{
+  margin: 30px 0 20px 0;
+}
+
+.add-admin a{
+  padding: 12px 20px;
+  background: #000;
+  color: #fff;
+  border-radius: 20px;
+  font-family: 'Montserrat';
+  box-shadow: 2px 2px 2px rgba(255, 255, 255, 0.4);
+}
+@media (min-width: 768px) {
+  .main-content {
+    width: 75vw;
+    position: absolute;
+    right: 0;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1200px) {
+  .main-content {
+    width: 70vw;
+  }
+}
+</style>

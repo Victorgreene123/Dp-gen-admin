@@ -1,0 +1,29 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+  
+  :root {
+    --dark-1: #060710;
+    --dark-2: #12131b;
+    --bright-1:#f4f4f4;
+    --brown-1: #dc7630;
+    --brown-2: #F6A771;
+    --blue-1: #405EB0;
+    --blue-2: #27396bf2;
+    --red-1:#ff0000;
+    --linear-gradient-1:linear-gradient(30deg, var(--bright-1), #fff);
+  }
+  
+  a {
+    text-decoration: none;
+  }
+  
+  button ,input{
+    border: none;
+    outline: none;
+  }
+
+  
+  
