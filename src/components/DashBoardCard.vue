@@ -21,6 +21,7 @@ defineProps({
     <p>{{ title }}</p>
     <h2>{{ total }}</h2>
     <small>{{ increment }}</small>
+
   </div>
 </template>
 
