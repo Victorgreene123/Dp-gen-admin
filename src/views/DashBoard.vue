@@ -1,13 +1,29 @@
 <script setup>
 import NavBar from '@/components/NavBar.vue'
 import DashBoardCard from '@/components/DashBoardCard.vue'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
 
-// Define async components for BarChart and PieChart
-// const BarChart = defineAsyncComponent(() => import('@/components/charts/BarChart.vue'))
-// const PieChart = defineAsyncComponent(() => import('@/components/charts/PieChart.vue'))
+const message = ref('')
+const userData = ref(null)
 
-//Passing props from the parent to the children
+onMounted(async () => {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await axios.get('https://achilles-web-be.onrender.com/admin/current', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    message.value = response.data
+    userData.value = response.data
+
+    // console.log(response.data);
+  } catch (error) {
+    message.value = 'You are not authorized to view this page.'
+  }
+})
+
 const cardMessage = ref({
   card1: {
     title: "DP's Total",
@@ -28,7 +44,7 @@ const cardMessage = ref({
 </script>
 
 <template>
-  <NavBar />
+  <NavBar :userData="userData" />
   <div class="main-content">
     <div class="dashboard-container">
       <div class="title">
@@ -52,16 +68,6 @@ const cardMessage = ref({
           :increment="cardMessage.card3.increment"
         />
       </div>
-      <!-- <div class="chart">
-        <div class="barchart">
-          <h3>DP's Performance</h3>
-          <BarChart />
-        </div>
-        <div class="piechart">
-          <h3>Dual Performance</h3>
-          <PieChart />
-        </div>
-      </div> -->
       <div class="recent-activity">
         <div class="title">
           <h3>Recent Activity</h3>
@@ -154,7 +160,7 @@ h3 {
 }
 
 .recent-activity {
-  padding: 30px;
+  padding: 30px 20px;
   margin-top: 30px;
   background: linear-gradient(30deg, var(--bright-1), #fff);
   border-radius: 20px;
@@ -164,7 +170,7 @@ h3 {
   margin-top: 30px;
   display: flex;
   flex-direction: column;
-  font-size: clamp(10px, 2vw, 16px);
+  font-size: clamp(10px, 1.7vw, 16px);
 }
 
 .head,
