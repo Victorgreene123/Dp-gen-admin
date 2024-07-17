@@ -24,11 +24,11 @@
   
   const login = async () => {
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/login', {
+      const { data } = await axios.post('https://achilles-web-be.onrender.com/admin/login', {
         email: email.value,
         password: password.value
       });
-      localStorage.setItem('token', data.token);
+      localStorage.setItem('token', data.access_token);
       router.push('/dashboard');
     } catch (error) {
       console.error('Login failed:', error.response?.data || error);
