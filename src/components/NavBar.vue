@@ -1,19 +1,18 @@
-<script>
-// For the hamburger menu for small screen
-export default {
-  data() {
-    return {
-      isActive: false
-    }
-  },
-  methods: {
-    // return true if false when clicked
-    // return false if true when clicked
-    toggleClass() {
-      this.isActive = !this.isActive
-    }
-  }
+<script setup>
+import { ref } from 'vue'
+
+// Define the reactive state for the hamburger menu
+const isActive = ref(false)
+
+// Define the method to toggle the class
+const toggleClass = () => {
+  isActive.value = !isActive.value
 }
+
+const props = defineProps({
+  userData: Object
+})
+
 </script>
 
 <template>
@@ -51,13 +50,15 @@ export default {
 
       <ul class="profile">
         <li>
-          <router-link to="/settings"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</router-link>
+          <router-link to="/settings"
+            ><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</router-link
+          >
         </li>
         <li>
           <i class="fa-solid fa-user"></i>
           <span>
-            <h4>Nwachukwu Simeon</h4>
-            <small>chinedu.simeon2020@gmail.com</small>
+            <h4>{{ userData ? userData.admin.fullname: 'Loading...' }}</h4>
+            <small>{{ userData ? userData.admin.email: 'Loading...' }}</small>
           </span>
         </li>
       </ul>
@@ -216,7 +217,6 @@ nav.active .nav-link-container {
 .profile-1 {
   display: none;
 }
-
 
 @media (min-width: 768px) {
   nav {
