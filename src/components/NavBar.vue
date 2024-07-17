@@ -108,6 +108,7 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding-bottom: 40px;
   backdrop-filter: blur(10px);
   background: var(--bright-1);
   background: linear-gradient(30deg, var(--bright-1), #fff);
