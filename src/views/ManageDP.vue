@@ -24,7 +24,7 @@ const items = ref([
 
 // Pagination states
 const currentPage = ref(1)
-const itemsPerPage = ref(10)  // Set items per page to 10
+const itemsPerPage = ref(10) // Set items per page to 10
 
 // Computed properties for paginated items
 const paginatedItems = computed(() => {
@@ -68,28 +68,43 @@ const paginatedItems = computed(() => {
               <p>Birthday Flyer</p>
               <p>2024-06-20</p>
               <p>Generated</p>
+              <form action="">
+                <input type="text" v-model="id" class="delID" />
+                <button class="delBtn">Delete</button>
+              </form>
             </div>
             <div class="row">
               <p>Mae Doe</p>
               <p>Certificate Flyer</p>
               <p>2024-2-20</p>
               <p>Generated</p>
+              <form action="">
+                <input type="text" v-model="id" class="delID" />
+                <button class="delBtn">Delete</button>
+              </form>
             </div>
             <div class="row">
               <p>John Doe</p>
               <p>Birthday Flyer</p>
               <p>2024-06-20</p>
               <p>Generated</p>
+              <form action="">
+                <input type="text" v-model="id" class="delID" />
+                <button class="delBtn">Delete</button>
+              </form>
             </div>
             <div class="row">
               <p>Mae Doe</p>
               <p>Certificate Flyer</p>
               <p>2024-2-20</p>
               <p>Generated</p>
+              <form action="">
+                <input type="text" v-model="id" class="delID" />
+                <button class="delBtn">Delete</button>
+              </form>
             </div>
           </div>
         </div>
-        <div class="pagination">xnxnxn</div>
       </div>
 
       <div class="pagination">
@@ -114,6 +129,23 @@ const paginatedItems = computed(() => {
 </template>
 
 <style scoped>
+.delID {
+  visibility: hidden;
+  padding: 0;
+  width: 0;
+  margin: 0;
+  height: 0;
+}
+
+.delBtn {
+  background: rgb(155, 3, 3);
+  color: var(--bright-1);
+  padding: 8px 6px;
+  width: 70%;
+  cursor: pointer;
+  border-radius: 20px;
+  box-shadow: 2px 2px 2px rgba(255, 255, 255, 0.4);
+}
 .managedp-container,
 .batch-download {
   width: 80%;
@@ -212,7 +244,7 @@ input[type='date']:focus {
 .head,
 .row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   margin-bottom: 15px;
 }
 
@@ -237,7 +269,7 @@ input[type='date']:focus {
   border-radius: 20px;
 }
 
-.pagination{
+.pagination {
   display: flex;
   align-items: center;
   justify-content: center;
