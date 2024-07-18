@@ -1,7 +1,33 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import NavBar from '@/components/NavBar.vue'
 import Pagination from '@/components/PagiNation.vue'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const message = ref('')
+const userData = ref(null)
+
+onMounted(async () => {
+  try {
+    const token = localStorage.getItem('token')
+    const response = await axios.get('https://achilles-web-be.onrender.com/admin/current', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    message.value = response.data
+    userData.value = response.data
+
+    // console.log(response.data);
+  } catch (error) {
+    message.value = 'You are not authorized to view this page.'
+    console.log(message.value)
+    router.push('/')
+  }
+})
 
 // Sample data
 const items = ref([
@@ -35,7 +61,7 @@ const paginatedItems = computed(() => {
 </script>
 
 <template>
-  <NavBar />
+  <NavBar :userData="userData" />
   <div class="main-content">
     <div class="managedp-container">
       <div class="title">
