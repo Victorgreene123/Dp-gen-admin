@@ -1,6 +1,5 @@
 <script setup>
 import NavBar from '@/components/NavBar.vue'
-
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
