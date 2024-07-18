@@ -1,48 +1,66 @@
 <template>
-    <div class="login">
-      <h1>Login</h1>
-      <form @submit.prevent="login" novalidate>
-        <small></small>
-        <input v-model="email" type="email" placeholder="Email" required />
-        <input v-model="password" type="password" placeholder="Password" required />
-        <button type="submit">Login</button>
-        <router-link to="/forgot-password">Forgot password?</router-link>
-      </form>
-    </div>
-  </template>
-  
-  <script setup>
-  import { ref } from 'vue';
-  import axios from 'axios';
-  import { useRouter } from 'vue-router';
-  
-  const email = ref('');
-  const password = ref('');
-  const router = useRouter();
+  <div class="login">
+    <h1>Login</h1>
+    <form @submit.prevent="login" novalidate>
+      <small></small>
+      <input v-model="email" type="email" placeholder="Email" required />
+      <input v-model="password" type="password" placeholder="Password" required />
+      <button
+        type="submit"
+        @click="isLogin"
+        :class="{ isLogin: loginText === 'Loging In...' }"
+        :disabled="disableBtn"
+      >
+        {{ loginText }}
+      </button>
+      <!-- <router-link to="/forgot-password">Forgot password?</router-link> -->
+    </form>
+  </div>
+</template>
 
-  const errorMessage = ref(''); //error messgae in browser
-  
-  const login = async () => {
-    try {
-      const { data } = await axios.post('https://achilles-web-be.onrender.com/admin/login', {
-        email: email.value,
-        password: password.value
-      });
-      localStorage.setItem('token', data.access_token);
-      router.push('/dashboard');
-    } catch (error) {
-      console.error('Login failed:', error.response?.data || error);
-      errorMessage.value = error.response?.data
-      document.querySelector('small').innerHTML = errorMessage.value.message//show the error in the broswer
+<script setup>
+import { ref } from 'vue'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
 
-      setTimeout(() => {
-      errorMessage.value.message = '';
-      document.querySelector('small').innerHTML = errorMessage.value.message//remove the error after 5seconds
-      },5000)
-    }
-  };
-  </script>
+const email = ref('')
+const password = ref('')
+const router = useRouter()
+const errorMessage = ref('') //error messgae in browser
 
+const loginText = ref('Login')
+const disableBtn = ref(false)
+
+const isLogin = () => {
+  loginText.value = 'Loging In...'
+  setTimeout(() => {
+    disableBtn.value = true
+  }, 10)
+}
+
+const login = async () => {
+  try {
+    const { data } = await axios.post('https://achilles-web-be.onrender.com/admin/login', {
+      email: email.value,
+      password: password.value
+    })
+    localStorage.setItem('token', data.access_token)
+    router.push('/dashboard')
+  } catch (error) {
+    loginText.value = 'Login'
+    disableBtn.value = false
+
+    console.error('Login failed:', error.response?.data || error)
+    errorMessage.value = error.response?.data
+    document.querySelector('small').innerHTML = errorMessage.value.message //show the error in the broswer
+
+    setTimeout(() => {
+      errorMessage.value.message = ''
+      document.querySelector('small').innerHTML = errorMessage.value.message //remove the error after 5seconds
+    }, 5000)
+  }
+}
+</script>
 
 <style scoped>
 div {
@@ -79,7 +97,7 @@ form {
   border-radius: 20px;
 }
 
-small{
+small {
   font-family: 'Montserrat';
   font-size: clamp(11px, 2vw, 12px);
   padding: 5px 0;
@@ -107,7 +125,12 @@ button {
   font-size: clamp(14px, 3vw, 16px);
 }
 
-a{
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+a {
   color: #333;
   align-self: flex-end;
   font-family: 'Poppins';
