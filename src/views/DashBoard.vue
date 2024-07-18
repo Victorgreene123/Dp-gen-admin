@@ -3,6 +3,9 @@ import NavBar from '@/components/NavBar.vue'
 import DashBoardCard from '@/components/DashBoardCard.vue'
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
 
 const message = ref('')
 const userData = ref(null)
@@ -21,6 +24,8 @@ onMounted(async () => {
     // console.log(response.data);
   } catch (error) {
     message.value = 'You are not authorized to view this page.'
+    console.log(message.value);
+    router.push('/')
   }
 })
 
