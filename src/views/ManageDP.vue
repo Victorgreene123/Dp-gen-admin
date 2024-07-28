@@ -4,11 +4,18 @@ import NavBar from '@/components/NavBar.vue'
 import Pagination from '@/components/PagiNation.vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import birthday from '@/stores/birthday'
 
 const router = useRouter()
 
 const message = ref('')
 const userData = ref(null)
+const birthdayData = ref(null)
+let filteredBirthady = ref([])
+let paginatedItems = ref('')
+
+const currentPage = ref(1)
+const itemsPerPage = ref(10) // Set items per page to 10
 
 onMounted(async () => {
   try {
@@ -25,10 +32,40 @@ onMounted(async () => {
   } catch (error) {
     message.value = 'You are not authorized to view this page.'
     console.log(message.value)
-    router.push('/')
+    // router.push('/')
   }
 })
 
+const handleBirthday = async () => {
+  try {
+    const result = await birthday(birthdayData)
+    const allBirthday = result.birthdays
+    filteredBirthady.value = allBirthday.map(({ caption, fullname, role, photo }) => ({
+      caption,
+      fullname,
+      role,
+      photo
+    }))
+
+    filteredBirthady.value = filteredBirthady.value.map((item, index) => ({
+      id: index + 1,
+      ...item
+    }))
+
+    // Computed properties for paginated items
+    paginatedItems = computed(() => {
+      const start = (currentPage.value - 1) * itemsPerPage.value
+      const end = start + itemsPerPage.value
+      return filteredBirthady.value.slice(start, end)
+    })
+    console.log(filteredBirthady.value) // Handle the resolved value here
+  } catch (error) {
+    console.error(error) // Handle any errors here
+  }
+}
+//localStorage.setItem(`birthdayD`, birthdayD)
+
+onMounted(handleBirthday)
 // Sample data
 const items = ref([
   { id: 1, name: 'Item 1' },
@@ -49,15 +86,15 @@ const items = ref([
 ])
 
 // Pagination states
-const currentPage = ref(1)
-const itemsPerPage = ref(10) // Set items per page to 10
+// const currentPage = ref(1)
+// const itemsPerPage = ref(10) // Set items per page to 10
 
-// Computed properties for paginated items
-const paginatedItems = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage.value
-  const end = start + itemsPerPage.value
-  return items.value.slice(start, end)
-})
+// // Computed properties for paginated items
+// const paginatedItems = computed(() => {
+//   const start = (currentPage.value - 1) * itemsPerPage.value
+//   const end = start + itemsPerPage.value
+//   return items.value.slice(start, end)
+// })
 </script>
 
 <template>
@@ -85,11 +122,11 @@ const paginatedItems = computed(() => {
           <div class="head">
             <h4>Name</h4>
             <h4>Type</h4>
-            <h4>Date Generated</h4>
-            <h4>Status</h4>
+            <h4>Date</h4>
+            <h4>View</h4>
           </div>
           <div class="body">
-            <div class="row">
+            <!-- <div class="row">
               <p>John Doe</p>
               <p>Birthday Flyer</p>
               <p>2024-06-20</p>
@@ -109,17 +146,7 @@ const paginatedItems = computed(() => {
                 <button class="delBtn">Delete</button>
               </form>
             </div>
-            <div class="row">
-              <p>John Doe</p>
-              <p>Birthday Flyer</p>
-              <p>2024-06-20</p>
-              <p>Generated</p>
-              <form action="">
-                <input type="text" v-model="id" class="delID" />
-                <button class="delBtn">Delete</button>
-              </form>
-            </div>
-            <div class="row">
+             <div class="row">
               <p>Mae Doe</p>
               <p>Certificate Flyer</p>
               <p>2024-2-20</p>
@@ -129,17 +156,32 @@ const paginatedItems = computed(() => {
                 <button class="delBtn">Delete</button>
               </form>
             </div>
+            <div class="row">
+              <p>John Doe</p>
+              <p>Birthday Flyer</p>
+              <p>2024-06-20</p>
+              <p>Generated</p>
+              <form action="">
+                <input type="text" v-model="id" class="delID" />
+                <button class="delBtn">Delete</button>
+              </form>
+            </div> -->
+
+            <div class="row" v-for="item in paginatedItems" :key="item.id">
+              <p>
+                {{ item.fullname }}
+              </p>
+              <p>Bir</p>
+              <p>2024-06-20</p>
+              <button class="delBtn">Delete</button>
+            </div>
+            <Pagination
+              :totalItems="filteredBirthady.length"
+              :itemsPerPage="itemsPerPage"
+              v-model="currentPage"
+            />
           </div>
         </div>
-      </div>
-
-      <div class="pagination">
-        <!-- <ul>
-          <li v-for="item in paginatedItems" :key="item.id">
-            {{ item.name }}
-          </li>
-        </ul> -->
-        <Pagination :totalItems="items.length" :itemsPerPage="itemsPerPage" v-model="currentPage" />
       </div>
     </div>
 
@@ -257,7 +299,6 @@ input[type='date']:focus {
   padding: 10px 15px;
   font-family: 'Montserrat';
   width: 40%;
-  box-shadow: 3px 3px 5px var(--brown-1);
 }
 
 .table {
@@ -270,7 +311,7 @@ input[type='date']:focus {
 .head,
 .row {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   margin-bottom: 15px;
 }
 
@@ -297,10 +338,12 @@ input[type='date']:focus {
 
 .pagination {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-top: 20px;
 }
+
 @media (min-width: 768px) {
   .main-content {
     width: 75vw;
