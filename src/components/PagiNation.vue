@@ -1,6 +1,6 @@
 <!-- src/components/Pagination.vue -->
 <template>
-    <div class="pagination">
+    <div class="paginationPage">
       <button
         :disabled="currentPage === 1"
         @click="changePage(currentPage - 1)"
@@ -59,19 +59,19 @@
   </script>
   
   <style scoped>
-  .pagination {
+  .paginationPage {
     display: flex;
     gap: 0.5rem;
   }
-  .pagination button {
+  .paginationPage button {
     padding: 0.5rem 1rem;
     cursor: pointer;
   }
-  .pagination button:disabled {
+  .paginationPage button:disabled {
     cursor: not-allowed;
     opacity: 0.5;
   }
-  .pagination .active {
+  .paginationPage .active {
     font-weight: bold;
   }
   </style>
