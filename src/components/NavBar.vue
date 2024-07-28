@@ -235,7 +235,7 @@ nav.active .nav-link-container {
     background: transparent;
     height: 100vh;
     transform: translateX(0);
-    box-shadow: 2px 2px 100px rgba(0, 0, 0, 0.15);
+    box-shadow: 2px 2px 100px rgba(0, 0, 0, 0.06);
     background: var(--linear-gradient-1);
   }
 
