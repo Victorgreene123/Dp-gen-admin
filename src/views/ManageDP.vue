@@ -58,43 +58,53 @@ const handleBirthday = async () => {
       const end = start + itemsPerPage.value
       return filteredBirthady.value.slice(start, end)
     })
-    console.log(filteredBirthady.value) // Handle the resolved value here
+    //console.log(filteredBirthady.value)
+    // Handle the resolved value here
   } catch (error) {
     console.error(error) // Handle any errors here
   }
 }
-//localStorage.setItem(`birthdayD`, birthdayD)
 
 onMounted(handleBirthday)
-// Sample data
-const items = ref([
-  { id: 1, name: 'Item 1' },
-  { id: 2, name: 'Item 2' },
-  { id: 3, name: 'Item 3' },
-  { id: 4, name: 'Item 4' },
-  { id: 5, name: 'Item 5' },
-  { id: 6, name: 'Item 6' },
-  { id: 7, name: 'Item 7' },
-  { id: 8, name: 'Item 8' },
-  { id: 9, name: 'Item 9' },
-  { id: 10, name: 'Item 10' },
-  { id: 11, name: 'Item 11' },
-  { id: 12, name: 'Item 12' },
-  { id: 13, name: 'Item 13' },
-  { id: 14, name: 'Item 14' },
-  { id: 15, name: 'Item 15' }
-])
 
-// Pagination states
-// const currentPage = ref(1)
-// const itemsPerPage = ref(10) // Set items per page to 10
+const viewDP = ref(false)
+const cancelView = () => {
+  viewDP.value = !viewDP.value
+}
 
-// // Computed properties for paginated items
-// const paginatedItems = computed(() => {
-//   const start = (currentPage.value - 1) * itemsPerPage.value
-//   const end = start + itemsPerPage.value
-//   return items.value.slice(start, end)
-// })
+const selectedUser = ref([])
+
+const viewImage = async (id) => {
+  try {
+    const user = filteredBirthady.value.find((item) => item.id === id)
+    selectedUser.value = user
+    viewDP.value = true
+  } catch (error) {
+    console.error(error) // Handle any errors here
+  }
+}
+
+const downloadImage = async () => {
+  if (selectedUser.value && selectedUser.value.photo) {
+    try {
+      const response = await fetch(selectedUser.value.photo)
+      const blob = await response.blob()
+      const url = URL.createObjectURL(blob)
+
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `${selectedUser.value.fullname}_photo.jpg`
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      URL.revokeObjectURL(url) // Clean up the URL object
+    } catch (error) {
+      console.error('Failed to download image:', error)
+    }
+  } else {
+    console.error('No image to download or image URL is invalid')
+  }
+}
 </script>
 
 <template>
@@ -126,54 +136,13 @@ const items = ref([
             <h4>View</h4>
           </div>
           <div class="body">
-            <!-- <div class="row">
-              <p>John Doe</p>
-              <p>Birthday Flyer</p>
-              <p>2024-06-20</p>
-              <p>Generated</p>
-              <form action="">
-                <input type="text" v-model="id" class="delID" />
-                <button class="delBtn">Delete</button>
-              </form>
-            </div>
-            <div class="row">
-              <p>Mae Doe</p>
-              <p>Certificate Flyer</p>
-              <p>2024-2-20</p>
-              <p>Generated</p>
-              <form action="">
-                <input type="text" v-model="id" class="delID" />
-                <button class="delBtn">Delete</button>
-              </form>
-            </div>
-             <div class="row">
-              <p>Mae Doe</p>
-              <p>Certificate Flyer</p>
-              <p>2024-2-20</p>
-              <p>Generated</p>
-              <form action="">
-                <input type="text" v-model="id" class="delID" />
-                <button class="delBtn">Delete</button>
-              </form>
-            </div>
-            <div class="row">
-              <p>John Doe</p>
-              <p>Birthday Flyer</p>
-              <p>2024-06-20</p>
-              <p>Generated</p>
-              <form action="">
-                <input type="text" v-model="id" class="delID" />
-                <button class="delBtn">Delete</button>
-              </form>
-            </div> -->
-
             <div class="row" v-for="item in paginatedItems" :key="item.id">
               <p>
                 {{ item.fullname }}
               </p>
               <p>Bir</p>
               <p>2024-06-20</p>
-              <button class="delBtn">Delete</button>
+              <button class="viewBtn" @click="viewImage(item.id)">View</button>
             </div>
             <Pagination
               :totalItems="filteredBirthady.length"
@@ -194,9 +163,69 @@ const items = ref([
       </div>
     </div>
   </div>
+
+  <div class="view-dp" :class="{ active: viewDP }">
+    <i class="fa-solid fa-x" @click="cancelView"></i>
+    <img :src="selectedUser.photo" alt="User Photo" />
+    <div class="btns">
+      <button @click="downloadImage">Download</button>
+    </div>
+  </div>
 </template>
 
 <style scoped>
+.view-dp.active {
+  display: flex;
+}
+
+.view-dp {
+  position: fixed;
+  height: 90vh;
+  width: 90vw;
+  backdrop-filter: blur(20px);
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  z-index: 2;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+.view-dp img {
+  height: 300px;
+  width: 300px;
+}
+
+.view-dp .fa-x {
+  position: fixed;
+  top: 40px;
+  right: 40px;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  padding: 15px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.view-dp .btns {
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+}
+
+.view-dp .btns button {
+  border-radius: 20px;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+  padding: 10px 15px;
+  font-family: 'Montserrat';
+  background: green;
+}
+
 .delID {
   visibility: hidden;
   padding: 0;
@@ -205,8 +234,8 @@ const items = ref([
   height: 0;
 }
 
-.delBtn {
-  background: rgb(155, 3, 3);
+.viewBtn {
+  background: var(--blue-2);
   color: var(--bright-1);
   padding: 8px 6px;
   width: 70%;
@@ -214,6 +243,7 @@ const items = ref([
   border-radius: 20px;
   box-shadow: 2px 2px 2px rgba(255, 255, 255, 0.4);
 }
+
 .managedp-container,
 .batch-download {
   width: 80%;
