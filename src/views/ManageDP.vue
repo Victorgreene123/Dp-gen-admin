@@ -3,17 +3,16 @@ import { ref, computed, onMounted } from 'vue'
 import NavBar from '@/components/NavBar.vue'
 import Pagination from '@/components/PagiNation.vue'
 import axios from 'axios'
-import { useRouter } from 'vue-router'
+// import { useRouter } from 'vue-router'
 import birthday from '@/stores/birthday'
+import certificate from '@/stores/certificate'
 
-const router = useRouter()
+// const router = useRouter()
 
 const message = ref('')
 const userData = ref(null)
-const birthdayData = ref(null)
-let filteredBirthady = ref([])
-let paginatedItems = ref('')
 
+// for pagination
 const currentPage = ref(1)
 const itemsPerPage = ref(10) // Set items per page to 10
 
@@ -36,54 +35,80 @@ onMounted(async () => {
   }
 })
 
-const handleBirthday = async () => {
+// FETCH BIRTHDAY AND USE IT
+const birthdayData = ref(null)
+let filteredBirthady = ref([])
+let paginatedItems = ref('')
+let allBirthday = ref([])
+
+const certificateData = ref(null)
+let filteredCertificate = ref([])
+let allCertificate = ref([])
+
+let joinBothDataTogrther = ref([]
+
+)
+const handleBothBirthdayAndCertificate = async () => {
   try {
-    const result = await birthday(birthdayData)
-    const allBirthday = result.birthdays
-    filteredBirthady.value = allBirthday.map(({ caption, fullname, role, photo }) => ({
+    const birthdayResult = await birthday(birthdayData)
+    allBirthday.value = birthdayResult.birthdays
+    filteredBirthady.value = allBirthday.value.map(({ caption, fullname, role, photo }) => ({
       caption,
       fullname,
       role,
-      photo
+      photo,
+      type_name: 'birthday'
     }))
 
-    filteredBirthady.value = filteredBirthady.value.map((item, index) => ({
+    const certificateResult = await certificate(certificateData)
+    allCertificate.value = certificateResult.certificates
+    filteredCertificate.value = allCertificate.value.map(({ caption, fullname, role }) => ({
+      caption,
+      fullname,
+      role,
+      type_name: 'certificate'
+    }))
+
+     joinBothDataTogrther.value = [...filteredBirthady.value, ...filteredCertificate.value]
+    joinBothDataTogrther.value = joinBothDataTogrther.value.map((item, index) => ({
       id: index + 1,
       ...item
     }))
+    console.log(joinBothDataTogrther)
 
+    // PAGINATION
     // Computed properties for paginated items
     paginatedItems = computed(() => {
       const start = (currentPage.value - 1) * itemsPerPage.value
       const end = start + itemsPerPage.value
-      return filteredBirthady.value.slice(start, end)
+      return joinBothDataTogrther.value.slice(start, end)
     })
-    //console.log(filteredBirthady.value)
-    // Handle the resolved value here
   } catch (error) {
-    console.error(error) // Handle any errors here
+    console.error(error)
   }
 }
 
-onMounted(handleBirthday)
+onMounted(handleBothBirthdayAndCertificate)
 
+// VIEW DP
 const viewDP = ref(false)
 const cancelView = () => {
   viewDP.value = !viewDP.value
 }
 
+// VIEW BIRTHDAY
 const selectedUser = ref([])
-
 const viewImage = async (id) => {
   try {
     const user = filteredBirthady.value.find((item) => item.id === id)
     selectedUser.value = user
     viewDP.value = true
   } catch (error) {
-    console.error(error) // Handle any errors here
+    console.error(error)
   }
 }
 
+// DOWNLOAD BIRTHDAY
 const downloadImage = async () => {
   if (selectedUser.value && selectedUser.value.photo) {
     try {
@@ -145,7 +170,7 @@ const downloadImage = async () => {
               <button class="viewBtn" @click="viewImage(item.id)">View</button>
             </div>
             <Pagination
-              :totalItems="filteredBirthady.length"
+              :totalItems="joinBothDataTogrther.length"
               :itemsPerPage="itemsPerPage"
               v-model="currentPage"
             />
@@ -238,7 +263,6 @@ const downloadImage = async () => {
   background: var(--blue-2);
   color: var(--bright-1);
   padding: 8px 6px;
-  width: 70%;
   cursor: pointer;
   border-radius: 20px;
   box-shadow: 2px 2px 2px rgba(255, 255, 255, 0.4);
