@@ -1,33 +1,20 @@
 <script setup>
 import NavBar from '@/components/NavBar.vue'
 import DashBoardCard from '@/components/DashBoardCard.vue'
-import { ref, onMounted } from 'vue'
-import axios from 'axios'
-import { useRouter } from 'vue-router';
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { admin, setupAdminStore } from '../stores/user.js'
 
 const router = useRouter()
 
-const message = ref('')
 const userData = ref(null)
+// when I solve the expiration token issue i will solve the user details on the navbar
 
-onMounted(async () => {
-  try {
-    const token = localStorage.getItem('token')
-    const response = await axios.get('https://achilles-web-be.onrender.com/admin/current', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    message.value = response.data
-    userData.value = response.data
-
-    // console.log(response.data);
-  } catch (error) {
-    message.value = 'You are not authorized to view this page.'
-    console.log(message.value);
-    router.push('/')
-  }
-})
+setupAdminStore()
+if (!admin.isAuthenticated) {
+  // router.push('/')
+}
+console.log(admin)
 
 const cardMessage = ref({
   card1: {
