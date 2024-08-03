@@ -52,7 +52,7 @@ const login = async () => {
 
     setupAdminStore()
     if (!admin.isAuthenticated) {
-      router.push('/')
+      // router.push('/')
     }
     console.log(admin)
 
