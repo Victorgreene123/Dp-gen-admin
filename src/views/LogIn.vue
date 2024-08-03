@@ -22,9 +22,13 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { admin, setupAdminStore } from '@/stores/user'
+
+setupAdminStore()
 
 const email = ref('')
 const password = ref('')
+
 const router = useRouter()
 const errorMessage = ref('') //error messgae in browser
 
@@ -45,6 +49,12 @@ const login = async () => {
       password: password.value
     })
     localStorage.setItem('token', data.access_token)
+
+    setupAdminStore()
+    if (!admin.isAuthenticated) {
+      router.push('/')
+    }
+
     router.push('/dashboard')
   } catch (error) {
     loginText.value = 'Login'
