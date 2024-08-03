@@ -3,7 +3,7 @@ import NavBar from '@/components/NavBar.vue'
 import DashBoardCard from '@/components/DashBoardCard.vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { admin, setupAdminStore } from '../stores/user.js'
+import { admin, setupAdminStore } from '../stores/admin.js'
 
 const router = useRouter()
 
