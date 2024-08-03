@@ -54,6 +54,7 @@ const login = async () => {
     if (!admin.isAuthenticated) {
       router.push('/')
     }
+    console.log(admin)
 
     router.push('/dashboard')
   } catch (error) {
