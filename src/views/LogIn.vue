@@ -22,7 +22,7 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
-import { admin, setupAdminStore } from '@/stores/user'
+import { admin, setupAdminStore } from '@/stores/admin'
 
 setupAdminStore()
 
