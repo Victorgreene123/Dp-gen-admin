@@ -5,8 +5,6 @@ import { inject, ref } from 'vue'
 const getProps = inject('getProps')
 const propsData = getProps()
 
-console.log(propsData);
-
 const capture = ref(null)
 
 const downloadImage = async () => {
