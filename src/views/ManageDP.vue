@@ -1,88 +1,67 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import NavBar from '@/components/NavBar.vue'
 import Pagination from '@/components/PagiNation.vue'
-import axios from 'axios'
-// import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import birthday from '@/stores/birthday'
 import certificate from '@/stores/certificate'
+import birthdayCarousel from '@/components/birthday/birthdayCarousel.vue'
+import { admin, setupAdminStore } from '../stores/admin.js'
 
-// const router = useRouter()
+const router = useRouter()
 
-const message = ref('')
-const userData = ref(null)
-
-// for pagination
-const currentPage = ref(1)
-const itemsPerPage = ref(10) // Set items per page to 10
-
-onMounted(async () => {
-  try {
-    const token = localStorage.getItem('token')
-    const response = await axios.get('https://achilles-web-be.onrender.com/admin/current', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    message.value = response.data
-    userData.value = response.data
-
-    // console.log(response.data);
-  } catch (error) {
-    message.value = 'You are not authorized to view this page.'
-    console.log(message.value)
-    // router.push('/')
-  }
-})
+setupAdminStore()
+if (!admin.isAuthenticated) {
+  // router.push('/')
+}
+console.log(admin)
 
 // FETCH BIRTHDAY AND USE IT
 const birthdayData = ref(null)
-let filteredBirthady = ref([])
-let paginatedItems = ref('')
-let allBirthday = ref([])
-
 const certificateData = ref(null)
-let filteredCertificate = ref([])
-let allCertificate = ref([])
 
-let joinBothDataTogrther = ref([]
+const allBirthday = ref([])
+const allCertificate = ref([])
 
-)
+const filteredBirthady = ref([])
+const filteredCertificate = ref([])
+
+const joinBothDataTogrther = ref([])
+
+const currentPage = ref(1)
+const itemsPerPage = ref(10) // Set items per page to 10
+
 const handleBothBirthdayAndCertificate = async () => {
   try {
     const birthdayResult = await birthday(birthdayData)
     allBirthday.value = birthdayResult.birthdays
-    filteredBirthady.value = allBirthday.value.map(({ caption, fullname, role, photo }) => ({
+    filteredBirthady.value = allBirthday.value.map(({ caption, fullname, role, photo, date }) => ({
       caption,
       fullname,
       role,
       photo,
+      date,
       type_name: 'birthday'
     }))
 
     const certificateResult = await certificate(certificateData)
     allCertificate.value = certificateResult.certificates
-    filteredCertificate.value = allCertificate.value.map(({ caption, fullname, role }) => ({
+    filteredCertificate.value = allCertificate.value.map(({ caption, fullname, role, date }) => ({
       caption,
       fullname,
       role,
+      date,
       type_name: 'certificate'
     }))
 
-     joinBothDataTogrther.value = [...filteredBirthady.value, ...filteredCertificate.value]
+    joinBothDataTogrther.value = [...filteredBirthady.value, ...filteredCertificate.value]
     joinBothDataTogrther.value = joinBothDataTogrther.value.map((item, index) => ({
       id: index + 1,
       ...item
     }))
-    console.log(joinBothDataTogrther)
 
-    // PAGINATION
-    // Computed properties for paginated items
-    paginatedItems = computed(() => {
-      const start = (currentPage.value - 1) * itemsPerPage.value
-      const end = start + itemsPerPage.value
-      return joinBothDataTogrther.value.slice(start, end)
-    })
+    // Initial search to populate results
+    performSearch()
   } catch (error) {
     console.error(error)
   }
@@ -90,50 +69,98 @@ const handleBothBirthdayAndCertificate = async () => {
 
 onMounted(handleBothBirthdayAndCertificate)
 
+// Computed property for paginated items
+const paginatedItems = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage.value
+  const end = start + itemsPerPage.value
+  return filteredResults.value.slice(start, end)
+})
+
+const searchCriteria = ref({
+  fullname: '',
+  type_name: '',
+  date: ''
+})
+
+const filteredResults = ref([])
+
+const performSearch = () => {
+  filteredResults.value = joinBothDataTogrther.value.filter((item) => {
+    const matchName = searchCriteria.value.fullname
+      ? item.fullname.toLowerCase().includes(searchCriteria.value.fullname.toLowerCase())
+      : true
+    const matchTypeName = searchCriteria.value.type_name
+      ? item.type_name.toLowerCase() === searchCriteria.value.type_name.toLowerCase()
+      : true
+    const matchDate = searchCriteria.value.date
+      ? item.date && item.date.startsWith(searchCriteria.value.date)
+      : true
+
+    return matchName && matchTypeName && matchDate
+  })
+}
+
+watch(searchCriteria, performSearch, { deep: true })
+
 // VIEW DP
 const viewDP = ref(false)
+let dpAboutToBeViewd = ref([])
+
 const cancelView = () => {
   viewDP.value = !viewDP.value
 }
 
-// VIEW BIRTHDAY
+// VIEW BIRTHDAY AND CERTIFICATE
 const selectedUser = ref([])
+const isBirthday = ref(false)
 const viewImage = async (id) => {
   try {
-    const user = filteredBirthady.value.find((item) => item.id === id)
+    const user = joinBothDataTogrther.value.find((item) => item.id === id)
     selectedUser.value = user
     viewDP.value = true
+    if (selectedUser.value.type_name === 'birthday') {
+      isBirthday.value = true
+    } else {
+      isBirthday.value = false
+    }
+    dpAboutToBeViewd.value = {
+      img: user.photo || '',
+      name: user.fullname || '',
+      role: user.role || ''
+    }
   } catch (error) {
     console.error(error)
   }
 }
 
 // DOWNLOAD BIRTHDAY
-const downloadImage = async () => {
-  if (selectedUser.value && selectedUser.value.photo) {
-    try {
-      const response = await fetch(selectedUser.value.photo)
-      const blob = await response.blob()
-      const url = URL.createObjectURL(blob)
+// const downloadImage = async () => {
+//   // if (selectedUser.value && selectedUser.value.photo) {
+//   if (aa) {
+//     try {
+//       const response = await fetch('../img/logo.png')
+//       const blob = await response.blob()
+//       const url = URL.createObjectURL(blob)
 
-      const link = document.createElement('a')
-      link.href = url
-      link.download = `${selectedUser.value.fullname}_photo.jpg`
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      URL.revokeObjectURL(url) // Clean up the URL object
-    } catch (error) {
-      console.error('Failed to download image:', error)
-    }
-  } else {
-    console.error('No image to download or image URL is invalid')
-  }
-}
+//       const link = document.createElement('a')
+//       link.href = url
+//       link.download = `a_photo.jpg`
+//       document.body.appendChild(link)
+//       link.click()
+//       document.body.removeChild(link)
+//       URL.revokeObjectURL(url) // Clean up the URL object
+//     } catch (error) {
+//       console.error('Failed to download image:', error)
+//     }
+//   } else {
+//     console.error('No image to download or image URL is invalid')
+//   }
+// }
 </script>
 
 <template>
-  <NavBar :userData="userData" />
+  <!-- <NavBar :userData="userData" /> -->
+  <NavBar />
   <div class="main-content">
     <div class="managedp-container">
       <div class="title">
@@ -142,15 +169,9 @@ const downloadImage = async () => {
       </div>
 
       <div class="search-container">
-        <div class="input-container">
-          <input type="text" id="search" placeholder="Search by name" />
-          <input type="date" id="dateFilter" name="dateFilter" placeholder="Filter by date" />
-        </div>
-        <select id="typeFilter">
-          <option value="">All Types</option>
-          <option value="Certificate">Certificate</option>
-          <option value="Birthday Flyer">Birthday Flyer</option>
-        </select>
+        <input type="text" v-model="searchCriteria.fullname" placeholder="Enter name" />
+        <input type="text" v-model="searchCriteria.type_name" placeholder="birthday/certificate" />
+        <input type="date" v-model="searchCriteria.date" placeholder="Enter date" />
       </div>
       <div class="all-dps">
         <div class="table">
@@ -170,7 +191,7 @@ const downloadImage = async () => {
               <button class="viewBtn" @click="viewImage(item.id)">View</button>
             </div>
             <Pagination
-              :totalItems="joinBothDataTogrther.length"
+              :totalItems="filteredResults.length"
               :itemsPerPage="itemsPerPage"
               v-model="currentPage"
             />
@@ -189,12 +210,14 @@ const downloadImage = async () => {
     </div>
   </div>
 
-  <div class="view-dp" :class="{ active: viewDP }">
-    <i class="fa-solid fa-x" @click="cancelView"></i>
-    <img :src="selectedUser.photo" alt="User Photo" />
-    <div class="btns">
-      <button @click="downloadImage">Download</button>
-    </div>
+  <div class="view-dp" :class="{ active: viewDP }" @click="cancelView">
+    <i class="fa-solid fa-x"></i>
+    <birthdayCarousel
+      v-if="isBirthday"
+      :img="dpAboutToBeViewd.img"
+      :name="dpAboutToBeViewd.name"
+      :role="dpAboutToBeViewd.role"
+    />
   </div>
 </template>
 
@@ -216,6 +239,7 @@ const downloadImage = async () => {
   justify-content: center;
   align-items: center;
   display: none;
+  cursor: pointer;
 }
 
 .view-dp img {
@@ -388,14 +412,6 @@ input[type='date']:focus {
   margin-top: 30px;
   background: linear-gradient(30deg, var(--bright-1), #fff);
   border-radius: 20px;
-}
-
-.pagination {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
 }
 
 @media (min-width: 768px) {
