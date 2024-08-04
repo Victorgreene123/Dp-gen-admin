@@ -8,7 +8,6 @@ import certificate from '@/stores/certificate'
 import birthdayCarousel from '@/components/birthday/birthdayCarousel.vue'
 import { admin, setupAdminStore } from '../stores/admin.js'
 
-
 const router = useRouter()
 
 setupAdminStore()
@@ -108,7 +107,7 @@ const viewDP = ref(false)
 let dpAboutToBeViewd = ref([])
 
 const cancelView = () => {
-  viewDP.value = !viewDP.value
+  viewDP.value = true
 }
 
 // VIEW BIRTHDAY AND CERTIFICATE
