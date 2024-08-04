@@ -8,6 +8,7 @@ import certificate from '@/stores/certificate'
 import birthdayCarousel from '@/components/birthday/birthdayCarousel.vue'
 import { admin, setupAdminStore } from '../stores/admin.js'
 
+
 const router = useRouter()
 
 setupAdminStore()
