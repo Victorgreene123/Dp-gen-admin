@@ -1,78 +1,85 @@
-<!-- src/components/Pagination.vue -->
 <template>
-    <div class="paginationPage">
-      <button
-        :disabled="currentPage === 1"
-        @click="changePage(currentPage - 1)"
-      >
-        Previous
-      </button>
-  
-      <button
-        v-for="page in totalPages"
-        :key="page"
-        :class="{ active: page === currentPage }"
-        @click="changePage(page)"
-      >
-        {{ page }}
-      </button>
-  
-      <button
-        :disabled="currentPage === totalPages"
-        @click="changePage(currentPage + 1)"
-      >
-        Next
-      </button>
-    </div>
-  </template>
-  
-  <script setup>
-  import { ref, watch, computed } from 'vue'
-  
-  // Props
-  const props = defineProps({
-    totalItems: { type: Number, required: true },
-    itemsPerPage: { type: Number, required: true },
-    modelValue: { type: Number, required: true }
-  })
-  
-  // Emit
-  const emit = defineEmits(['update:modelValue'])
-  
-  // Reactive states
-  const currentPage = ref(props.modelValue)
-  
-  // Watch for modelValue changes
-  watch(() => props.modelValue, (newValue) => {
-    currentPage.value = newValue
-  })
-  
-  // Computed properties
-  const totalPages = computed(() => Math.ceil(props.totalItems / props.itemsPerPage))
-  
-  // Methods
-  const changePage = (page) => {
-    if (page >= 1 && page <= totalPages.value) {
-      emit('update:modelValue', page)
-    }
+  <div class="pagination">
+    <button @click="prevPage" :disabled="currentPage === 1" class="pagination__button">
+      <i class="fa-solid fa-angle-left"></i> Previous
+    </button>
+
+    <span class="pagination__info"> Page {{ currentPage }} of {{ totalPages }} </span>
+
+    <button @click="nextPage" :disabled="currentPage === totalPages" class="pagination__button">
+      Next <i class="fa-solid fa-angle-right"></i>
+    </button>
+  </div>
+</template>
+
+<script setup>
+import { computed } from 'vue'
+
+const props = defineProps({
+  totalItems: {
+    type: Number,
+    required: true
+  },
+  itemsPerPage: {
+    type: Number,
+    required: true
+  },
+  modelValue: {
+    type: Number,
+    default: 1
   }
-  </script>
-  
-  <style scoped>
-  .paginationPage {
-    display: flex;
-    gap: 0.5rem;
+})
+
+const emit = defineEmits(['update:modelValue'])
+
+const currentPage = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value) {
+    emit('update:modelValue', value)
   }
-  .paginationPage button {
-    padding: 0.5rem 1rem;
-    cursor: pointer;
+})
+
+const totalPages = computed(() => {
+  return Math.ceil(props.totalItems / props.itemsPerPage)
+})
+
+function prevPage() {
+  if (currentPage.value > 1) {
+    currentPage.value--
   }
-  .paginationPage button:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
+}
+
+function nextPage() {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++
   }
-  .paginationPage .active {
-    font-weight: bold;
-  }
-  </style>
-  
+}
+</script>
+
+<style scoped>
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.pagination__button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+}
+
+.pagination__button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.pagination__info {
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+}
+</style>
