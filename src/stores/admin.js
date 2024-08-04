@@ -4,7 +4,8 @@ import axios from 'axios'
 // initialize if authenticated and admin details
 const admin = reactive({
   isAuthenticated: false,
-  adminDetails: []
+  adminDetails: '',
+  error: ''
 })
 
 // fetch current admin
@@ -16,9 +17,11 @@ const fetchAdminDetails = async () => {
     })
     admin.isAuthenticated = true
     admin.adminDetails = response.data
+    admin.error = ''
   } catch (error) {
     admin.isAuthenticated = false
-    admin.adminDetails = error
+    admin.adminDetails = ''
+    admin.error = error
   }
   return admin
 }
