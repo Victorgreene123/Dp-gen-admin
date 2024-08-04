@@ -53,7 +53,7 @@ const downloadImage = async () => {
 }
 .result-image {
   margin: auto;
-  background-image: url('../img/birthday-template-2.jpg');
+  background-image: url('../../img/birthday-template-2.jpg');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;

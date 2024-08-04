@@ -5,7 +5,7 @@ import { inject, ref } from 'vue'
 const getProps = inject('getProps')
 const propsData = getProps()
 
-console.log(propsData);
+console.log(propsData)
 
 const capture = ref(null)
 
@@ -53,7 +53,7 @@ const downloadImage = async () => {
 }
 .result-image {
   margin: auto;
-  background-image: url('../img/birthday-template-1.png');
+  background-image: url('../../img/birthday-template-1.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
