@@ -35,24 +35,28 @@ const handleBothBirthdayAndCertificate = async () => {
   try {
     const birthdayResult = await birthday(birthdayData)
     allBirthday.value = birthdayResult.birthdays
-    filteredBirthady.value = allBirthday.value.map(({ caption, fullname, role, photo, date }) => ({
-      caption,
-      fullname,
-      role,
-      photo,
-      date,
-      type_name: 'birthday'
-    }))
+    filteredBirthady.value = allBirthday.value.map(
+      ({ caption, fullname, role, photo, created_at }) => ({
+        caption,
+        fullname,
+        role,
+        photo,
+        created_at: new Date(created_at).toISOString().split('T')[0],
+        type_name: 'birthday'
+      })
+    )
 
     const certificateResult = await certificate(certificateData)
     allCertificate.value = certificateResult.certificates
-    filteredCertificate.value = allCertificate.value.map(({ caption, fullname, role, date }) => ({
-      caption,
-      fullname,
-      role,
-      date,
-      type_name: 'certificate'
-    }))
+    filteredCertificate.value = allCertificate.value.map(
+      ({ caption, fullname, role, created_at }) => ({
+        caption,
+        fullname,
+        role,
+        created_at: new Date(created_at).toISOString().split('T')[0],
+        type_name: 'certificate'
+      })
+    )
 
     joinBothDataTogrther.value = [...filteredBirthady.value, ...filteredCertificate.value]
     joinBothDataTogrther.value = joinBothDataTogrther.value.map((item, index) => ({
@@ -79,7 +83,7 @@ const paginatedItems = computed(() => {
 const searchCriteria = ref({
   fullname: '',
   type_name: '',
-  date: ''
+  created_at: ''
 })
 
 const filteredResults = ref([])
@@ -92,8 +96,8 @@ const performSearch = () => {
     const matchTypeName = searchCriteria.value.type_name
       ? item.type_name.toLowerCase() === searchCriteria.value.type_name.toLowerCase()
       : true
-    const matchDate = searchCriteria.value.date
-      ? item.date && item.date.startsWith(searchCriteria.value.date)
+    const matchDate = searchCriteria.value.created_at
+      ? item.created_at && item.created_at.startsWith(searchCriteria.value.created_at)
       : true
 
     return matchName && matchTypeName && matchDate
@@ -101,13 +105,12 @@ const performSearch = () => {
 }
 
 watch(searchCriteria, performSearch, { deep: true })
-
 // VIEW DP
 const viewDP = ref(false)
 let dpAboutToBeViewd = ref([])
 
 const cancelView = () => {
-  viewDP.value = true
+  viewDP.value = !viewDP.value
 }
 
 // VIEW BIRTHDAY AND CERTIFICATE
@@ -171,7 +174,7 @@ const viewImage = async (id) => {
       <div class="search-container">
         <input type="text" v-model="searchCriteria.fullname" placeholder="Enter name" />
         <input type="text" v-model="searchCriteria.type_name" placeholder="birthday/certificate" />
-        <input type="date" v-model="searchCriteria.date" placeholder="Enter date" />
+        <input type="date" v-model="searchCriteria.created_at" placeholder="Enter date" />
       </div>
       <div class="all-dps">
         <div class="table">
@@ -186,8 +189,9 @@ const viewImage = async (id) => {
               <p>
                 {{ item.fullname }}
               </p>
-              <p>Bir</p>
-              <p>2024-06-20</p>
+              <p v-if="item.type_name === 'certificate'">cer</p>
+              <p v-else>bir</p>
+              <p>{{ item.created_at }}</p>
               <button class="viewBtn" @click="viewImage(item.id)">View</button>
             </div>
             <Pagination
@@ -210,8 +214,8 @@ const viewImage = async (id) => {
     </div>
   </div>
 
-  <div class="view-dp" :class="{ active: viewDP }" @click="cancelView">
-    <i class="fa-solid fa-x"></i>
+  <div class="view-dp" :class="{ active: viewDP }">
+    <i class="fa-solid fa-x" @click="cancelView"></i>
     <birthdayCarousel
       v-if="isBirthday"
       :img="dpAboutToBeViewd.img"
