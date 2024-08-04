@@ -12,10 +12,15 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@glidejs/glide": "^3.6.2",
+    "@splidejs/vue-splide": "^0.6.12",
     "axios": "^1.7.2",
     "dotenv": "^16.4.5",
+    "html2canvas": "^1.4.1",
     "vue": "^3.4.29",
-    "vue-router": "^4.3.3"
+    "vue-carousel": "^0.18.0",
+    "vue-router": "^4.3.3",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",
