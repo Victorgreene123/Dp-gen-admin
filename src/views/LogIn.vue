@@ -22,9 +22,9 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
-import { admin, setupAdminStore } from '@/stores/admin'
+import { admin, setupCurrentAdmin } from '@/stores/admin'
 
-setupAdminStore()
+setupCurrentAdmin()
 
 const email = ref('')
 const password = ref('')
@@ -50,7 +50,7 @@ const login = async () => {
     })
     localStorage.setItem('token', data.access_token)
 
-    setupAdminStore()
+    setupCurrentAdmin()
     if (!admin.isAuthenticated) {
       // router.push('/')
     }
