@@ -1,22 +1,45 @@
 <script setup>
+import { useRouter } from 'vue-router'
+import {
+  addAdmin,
+  adminData,
+  adminInnerText,
+  disableBtn,
+  email,
+  fullname,
+  isAddAdmin,
+  password,
+  setupAddAdmin
+} from '@/stores/addAdmin'
 
+const router = useRouter()
+
+// setup to add admin
+setupAddAdmin()
+if (adminData.isAdded) {
+  router.push('/manage-admins')
+}
 </script>
 
 <template>
   <div class="signup">
     <h1>Add Admin</h1>
-    <form novalidate>
+    <form novalidate @submit.prevent="addAdmin">
       <small></small>
-      <input v-model="name" type="text" placeholder="Name" required />
+      <input v-model="fullname" type="text" placeholder="Name" required />
       <input v-model="email" type="email" placeholder="Email" required />
       <input v-model="password" type="password" placeholder="Password" required />
-      <button type="submit">Add Admin</button>
+      <button
+        type="submit"
+        @click="isAddAdmin"
+        :class="{ isAddAdmin: adminInnerText === 'Adding Admin...' }"
+        :disabled="disableBtn"
+      >
+        {{ adminInnerText }}
+      </button>
     </form>
   </div>
 </template>
-
-
-
 
 <style scoped>
 div {
@@ -53,7 +76,7 @@ form {
   border-radius: 20px;
 }
 
-small{
+small {
   font-family: 'Montserrat';
   font-size: clamp(11px, 2vw, 12px);
   padding: 5px 0;
@@ -81,7 +104,12 @@ button {
   font-size: clamp(14px, 3vw, 16px);
 }
 
-a{
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+a {
   color: #333;
   align-self: flex-end;
   font-family: 'Poppins';
