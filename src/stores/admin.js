@@ -9,7 +9,7 @@ const admin = reactive({
 })
 
 // fetch current admin
-const fetchAdminDetails = async () => {
+const currentAdmin = async () => {
   try {
     const token = localStorage.getItem('token')
     const response = await axios.get('https://achilles-web-be.onrender.com/admin/current', {
@@ -27,10 +27,10 @@ const fetchAdminDetails = async () => {
 }
 
 // setup onMounted hook
-const setupAdminStore = () => {
+const setupCurrentAdmin = () => {
   onMounted(async () => {
-    await fetchAdminDetails()
+    await currentAdmin()
   })
 }
 
-export { admin, fetchAdminDetails, setupAdminStore }
+export { admin, currentAdmin, setupCurrentAdmin }
