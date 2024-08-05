@@ -1,42 +1,84 @@
 <script setup>
 import NavBar from '@/components/NavBar.vue'
 import DashBoardCard from '@/components/DashBoardCard.vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { admin, setupAdminStore } from '../stores/admin.js'
+import { admin, setupCurrentAdmin } from '../stores/admin.js'
+import { filteredResults, setuphandleBothBirthdayAndCertificate } from '@/stores/manageDPs.js'
 
 const router = useRouter()
 
-const userData = ref(null)
-// when I solve the expiration token issue i will solve the user details on the navbar
-
-setupAdminStore()
+setupCurrentAdmin()
 if (!admin.isAuthenticated) {
   // router.push('/')
 }
 console.log(admin)
 
+setuphandleBothBirthdayAndCertificate()
+
+const maxRetries = 10 // Maximum number of retries
+const retryInterval = 1000 // Interval between retries in milliseconds
+
+const dataAvailable = ref(false)
+
+const waitForData = async () => {
+  let retries = 0
+
+  while (retries < maxRetries) {
+    if (filteredResults.value.length > 0) {
+      // Count the number of each type
+      const counts = filteredResults.value.reduce(
+        (acc, item) => {
+          if (item.type_name === 'certificate') {
+            acc.certificates += 1
+          } else if (item.type_name === 'birthday') {
+            acc.birthdays += 1
+          }
+          return acc
+        },
+        { certificates: 0, birthdays: 0 }
+      )
+
+      // Update cardMessage with fetched data
+      cardMessage.value.card1.total = counts.certificates + counts.birthdays
+      cardMessage.value.card2.total = counts.certificates
+      cardMessage.value.card3.total = counts.birthdays
+      dataAvailable.value = true // Data is available
+      return // Exit the function if data is available
+    }
+
+    retries++
+    console.log(retries)
+    await new Promise((resolve) => setTimeout(resolve, retryInterval))
+  }
+
+  console.log('No data available after maximum retries.')
+  dataAvailable.value = true // Set to true even if no data is found to avoid infinite waiting
+}
+
+onMounted(waitForData)
+
 const cardMessage = ref({
   card1: {
     title: "DP's Total",
-    total: 12000,
+    total: 0,
     increment: '2% since 1 month'
   },
   card2: {
     title: 'Total Certificate',
-    total: 10000,
+    total: 0,
     increment: '3% since 1 week'
   },
   card3: {
     title: 'Total Birthday',
-    total: 2000,
+    total: 0,
     increment: '2.3% since 1 month'
   }
 })
 </script>
 
 <template>
-  <NavBar :userData="userData" />
+  <NavBar />
   <div class="main-content">
     <div class="dashboard-container">
       <div class="title">
