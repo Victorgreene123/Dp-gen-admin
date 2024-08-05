@@ -1,140 +1,40 @@
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
 import NavBar from '@/components/NavBar.vue'
 import Pagination from '@/components/PagiNation.vue'
 import { useRouter } from 'vue-router'
-import birthday from '@/stores/birthday'
-import certificate from '@/stores/certificate'
 import birthdayCarousel from '@/components/birthday/birthdayCarousel.vue'
-import { admin, setupAdminStore } from '../stores/admin.js'
+import { admin, setupCurrentAdmin } from '../stores/admin.js'
+import {
+  cancelView,
+  currentPage,
+  filteredResults,
+  isBirthday,
+  itemsPerPage,
+  paginatedItems,
+  searchCriteria,
+  setuphandleBothBirthdayAndCertificate,
+  viewDP,
+  viewImage,
+  watchOnSearchInInput,
+  dpAboutToBeViewd
+} from '@/stores/manageDPs.js'
 
 const router = useRouter()
+console.log(filteredResults);
 
-setupAdminStore()
+// set up admin current details
+setupCurrentAdmin()
 if (!admin.isAuthenticated) {
   // router.push('/')
 }
 console.log(admin)
 
-// FETCH BIRTHDAY AND USE IT
-const birthdayData = ref(null)
-const certificateData = ref(null)
+// handle all DPs on screen also hanle searching
+setuphandleBothBirthdayAndCertificate()
 
-const allBirthday = ref([])
-const allCertificate = ref([])
+// watch for input when searching
+watchOnSearchInInput()
 
-const filteredBirthady = ref([])
-const filteredCertificate = ref([])
-
-const joinBothDataTogrther = ref([])
-
-const currentPage = ref(1)
-const itemsPerPage = ref(10) // Set items per page to 10
-
-const handleBothBirthdayAndCertificate = async () => {
-  try {
-    const birthdayResult = await birthday(birthdayData)
-    allBirthday.value = birthdayResult.birthdays
-    filteredBirthady.value = allBirthday.value.map(
-      ({ caption, fullname, role, photo, created_at }) => ({
-        caption,
-        fullname,
-        role,
-        photo,
-        created_at: new Date(created_at).toISOString().split('T')[0],
-        type_name: 'birthday'
-      })
-    )
-
-    const certificateResult = await certificate(certificateData)
-    allCertificate.value = certificateResult.certificates
-    filteredCertificate.value = allCertificate.value.map(
-      ({ caption, fullname, role, created_at }) => ({
-        caption,
-        fullname,
-        role,
-        created_at: new Date(created_at).toISOString().split('T')[0],
-        type_name: 'certificate'
-      })
-    )
-
-    joinBothDataTogrther.value = [...filteredBirthady.value, ...filteredCertificate.value]
-    joinBothDataTogrther.value = joinBothDataTogrther.value.map((item, index) => ({
-      id: index + 1,
-      ...item
-    }))
-
-    // Initial search to populate results
-    performSearch()
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-onMounted(handleBothBirthdayAndCertificate)
-
-// Computed property for paginated items
-const paginatedItems = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage.value
-  const end = start + itemsPerPage.value
-  return filteredResults.value.slice(start, end)
-})
-
-const searchCriteria = ref({
-  fullname: '',
-  type_name: '',
-  created_at: ''
-})
-
-const filteredResults = ref([])
-
-const performSearch = () => {
-  filteredResults.value = joinBothDataTogrther.value.filter((item) => {
-    const matchName = searchCriteria.value.fullname
-      ? item.fullname.toLowerCase().includes(searchCriteria.value.fullname.toLowerCase())
-      : true
-    const matchTypeName = searchCriteria.value.type_name
-      ? item.type_name.toLowerCase() === searchCriteria.value.type_name.toLowerCase()
-      : true
-    const matchDate = searchCriteria.value.created_at
-      ? item.created_at && item.created_at.startsWith(searchCriteria.value.created_at)
-      : true
-
-    return matchName && matchTypeName && matchDate
-  })
-}
-
-watch(searchCriteria, performSearch, { deep: true })
-// VIEW DP
-const viewDP = ref(false)
-let dpAboutToBeViewd = ref([])
-
-const cancelView = () => {
-  viewDP.value = !viewDP.value
-}
-
-// VIEW BIRTHDAY AND CERTIFICATE
-const selectedUser = ref([])
-const isBirthday = ref(false)
-const viewImage = async (id) => {
-  try {
-    const user = joinBothDataTogrther.value.find((item) => item.id === id)
-    selectedUser.value = user
-    viewDP.value = true
-    if (selectedUser.value.type_name === 'birthday') {
-      isBirthday.value = true
-    } else {
-      isBirthday.value = false
-    }
-    dpAboutToBeViewd.value = {
-      img: user.photo || '',
-      name: user.fullname || '',
-      role: user.role || ''
-    }
-  } catch (error) {
-    console.error(error)
-  }
-}
 
 // DOWNLOAD BIRTHDAY
 // const downloadImage = async () => {
