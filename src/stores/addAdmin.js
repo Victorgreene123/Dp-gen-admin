@@ -23,6 +23,10 @@ const addAdmin = async () => {
     console.log(data)
     adminData.message = data
     adminData.isAdded = true
+    
+    if (adminData.isAdded) {
+      router.push('/manage-admins')
+    }
   } catch (error) {
     adminData.error = error
     adminData.isAdded = false
