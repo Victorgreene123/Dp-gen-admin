@@ -66,7 +66,25 @@ watchOnSearchInInput()
  //role : "role",
  //type : "type",
 //})
-console.log(dpAboutToBeViewd.value)
+switch (dpAboutToBeViewd.value.caption) {
+    case 'Certificate of Service':
+      dpAboutToBeViewd.value.certificateText = `For his role as {} with Achilles Drill, having been a dynamic and dedicated member of the team. Your commitment and contributions are highly valued and appreciated.`
+      break
+    case 'Certificate of Excellence':
+    dpAboutToBeViewd.value.certificateText = 'For outstanding performance and exceptional contributions to Achilles Drill. Your excellence in executing tasks and your unwavering dedication have set a high standard for others.'
+      break
+    case 'Certificate of Achievement':
+      dpAboutToBeViewd.value.certificateText = 'In recognition of your significant achievements and exceptional performance at Achilles Drill. Your hard work and perseverance have greatly contributed to the success of the team.'
+      break
+    case 'Certificate of Appreciation':
+      dpAboutToBeViewd.value.certificateText = 'In gratitude for your invaluable contributions and unwavering support to Achilles Drill. Your dedication and hard work are truly appreciated and have made a remarkable difference.'
+      break
+    case 'Certificate of Recognition':
+      dpAboutToBeViewd.value.certificateText = 'In recognition of your exceptional skills and outstanding dedication to Achilles Drill. Your consistent efforts and professional excellence have greatly benefited the organization.'
+      break
+    default:
+      dpAboutToBeViewd.value.certificateText = ''
+  }
 </script>
 
 <template>
@@ -135,7 +153,7 @@ console.log(dpAboutToBeViewd.value)
       :type="dpAboutToBeViewd.caption"
       :name="dpAboutToBeViewd.name"
       :role="dpAboutToBeViewd.role"
-      :certificateText="dpAboutToBeViewd.role"
+      :certificateText="dpAboutToBeViewd.certificateText"
     />
   </div>
 </template>
