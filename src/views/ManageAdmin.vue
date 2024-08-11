@@ -16,7 +16,7 @@ console.log(admin)
 
 //set up all admin details
 setupAllAdmin()
-console.log(allAdminData)
+
 const dataAvailable = ref(false)
 const maxRetries = 20
 const retryInterval = 1000
@@ -67,20 +67,10 @@ onMounted(waitForData)
             <h4>Role</h4>
           </div>
           <div class="body">
-            <div class="row">
-              <p>John Doe</p>
-              <p>achillesdrill@gmail.com</p>
-              <p>Owner</p>
-            </div>
-            <div class="row">
-              <p>Simeon</p>
-              <p>chinedu.simeon2020@gmail.com</p>
-              <p>Admin</p>
-            </div>
-            <div class="row">
-              <p>John Doe</p>
-              <p>jogndoe@gmail.com</p>
-              <p>Admin</p>
+            <div class="row" v-for="item in adminn" :key="item._id">
+              <p>{{item.fullname}}</p>
+              <p>{{item.email}}</p>
+              <p>{{item.role}}</p>
             </div>
           </div>
         </div>
