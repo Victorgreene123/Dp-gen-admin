@@ -14,9 +14,6 @@ import {
 
 const router = useRouter()
 
-if (adminData.isAdded) {
-  router.push('/manage-admins')
-}
 </script>
 
 <template>
