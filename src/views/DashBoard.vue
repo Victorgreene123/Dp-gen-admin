@@ -29,11 +29,15 @@ const waitForData = async () => {
     if (filteredResults.value.length > 0) {
     
    // filteredResults is an array of objects with 'date' and 'time' properties
-   mostRecentData.value = filteredResults.value
+ mostRecentData.value = filteredResults.value
   .sort((a, b) => {
-    const dateTimeA = new Date(`${a.date}T${a.time}`).getTime();
-    const dateTimeB = new Date(`${b.date}T${b.time}`).getTime();
-    return dateTimeB - dateTimeA; // Sort in descending order (newest first)
+    if (b.id !== a.id) {
+      return b.id - a.id; // Sort by id in descending order
+    } else {
+      const dateTimeA = new Date(`${a.date}T${a.time}`).getTime();
+      const dateTimeB = new Date(`${b.date}T${b.time}`).getTime();
+      return dateTimeB - dateTimeA; // If id is the same, sort by date and time
+    }
   })
   .slice(0, 10); // Get the most recent 10 items
 
