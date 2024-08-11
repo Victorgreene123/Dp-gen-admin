@@ -134,7 +134,7 @@ console.log(dpAboutToBeViewd.value)
       v-else
       :type="dpAboutToBeViewd.caption"
       :name="dpAboutToBeViewd.name"
-      :role="dpAboutToBeViewd.caption"
+      :role="dpAboutToBeViewd.role"
     />
   </div>
 </template>
