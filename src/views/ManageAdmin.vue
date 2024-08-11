@@ -16,7 +16,7 @@ console.log(admin)
 
 //set up all admin details
 setupAllAdmin()
-
+console.log(allAdmin)
 const dataAvailable = ref(false)
 const maxRetries = 20
 const retryInterval = 1000
