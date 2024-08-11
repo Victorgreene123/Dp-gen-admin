@@ -1,6 +1,8 @@
 <script setup>
 import NavBar from '@/components/NavBar.vue'
 import Pagination from '@/components/PagiNation.vue'
+import CertifiCate from '@/components/CertifiCate.vue'
+
 import { useRouter } from 'vue-router'
 import birthdayCarousel from '@/components/birthday/birthdayCarousel.vue'
 import { admin, setupCurrentAdmin } from '../stores/admin.js'
@@ -59,6 +61,11 @@ watchOnSearchInInput()
 //     console.error('No image to download or image URL is invalid')
 //   }
 // }
+const certficateData = ref({
+ name : "Simeon",
+ role : "role",
+ type : "type",
+})
 </script>
 
 <template>
@@ -121,6 +128,11 @@ watchOnSearchInInput()
       :img="dpAboutToBeViewd.img"
       :name="dpAboutToBeViewd.name"
       :role="dpAboutToBeViewd.role"
+    />
+    <CertifiCate
+      :name="certficateData.name"
+      :role="certficateData.role"
+      :type="certficateData.type"
     />
   </div>
 </template>
