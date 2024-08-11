@@ -130,12 +130,12 @@ console.log(dpAboutToBeViewd.value)
       :name="dpAboutToBeViewd.name"
       :role="dpAboutToBeViewd.role"
     />
-    <!--<CertifiCate-->
-    <!--  v-else-->
-    <!--  :type="dpAboutToBeViewd.caption"-->
-    <!--  :name="dpAboutToBeViewd.name"-->
-    <!--  :role="dpAboutToBeViewd.role"-->
-    <!--/>-->
+    <CertifiCate
+      v-else
+      :type="dpAboutToBeViewd.caption"
+      :name="dpAboutToBeViewd.name"
+      :role="dpAboutToBeViewd.caption"
+    />
   </div>
 </template>
 
