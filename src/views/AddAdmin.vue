@@ -14,11 +14,6 @@ import {
 
 const router = useRouter()
 
-// setup to add admin
-
-//setupAddAdmin()
-isAddAdmin()
-
 if (adminData.isAdded) {
   router.push('/manage-admins')
 }
