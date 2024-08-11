@@ -1,7 +1,7 @@
 <script setup>
 import NavBar from '@/components/NavBar.vue'
 import Pagination from '@/components/PagiNation.vue'
-import CerifiCate from '@/components/CertifiCate.vue'
+import CertifiCate from '@/components/CerifiCate.vue'
 
 import { useRouter } from 'vue-router'
 import birthdayCarousel from '@/components/birthday/birthdayCarousel.vue'
