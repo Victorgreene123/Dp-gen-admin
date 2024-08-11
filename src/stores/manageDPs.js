@@ -127,7 +127,8 @@ const viewImage = async (id) => {
       img: user.photo || '',
       name: user.fullname || '',
       role: user.role || '',
-      caption: user.caption || ''
+      caption: user.caption || '',
+      certificateText: user.certificateText || ''
     }
   } catch (error) {
     console.error(error)
