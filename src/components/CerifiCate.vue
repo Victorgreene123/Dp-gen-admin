@@ -27,9 +27,9 @@ const props = defineProps({
 
 const contentToDownload = ref(null)
 
-<!--const updateCertificateText = () => {-->
+//const updateCertificateText = () => {
   
-<!--}-->
+//}
 
 const downloadAsHTML = async () => {
   if (contentToDownload.value) {
@@ -45,10 +45,10 @@ const downloadAsHTML = async () => {
   }
 }
 
-<!--onMounted(() => {-->
-<!--  contentToDownload.value = document.querySelector('.certificate_bg')-->
-<!--  updateCertificateText()-->
-<!--})-->
+//onMounted(() => {
+  //contentToDownload.value = document.querySelector('.certificate_bg')
+  //updateCertificateText()
+//})
 </script>
 
 <template>
