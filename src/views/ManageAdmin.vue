@@ -4,6 +4,7 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { admin, setupCurrentAdmin } from '../stores/admin.js'
+import { allAdminData,setupAllAdmin  } from '../stores/allAdmin.js'
 
 const router = useRouter()
 // set up admin current details
@@ -12,6 +13,38 @@ if (!admin.isAuthenticated) {
   // router.push('/')
 }
 console.log(admin)
+
+//set up all admin details
+setupAllAdmin()
+
+const dataAvailable = ref(false)
+let adminn = ref('')
+
+const waitForData = async () => {
+  let retries = 0
+
+  while (retries < maxRetries) {
+    try {
+      adminn.value = await allAdminData.all.admins
+      if (adminn.value && adminn.value.length > 0) {
+        // Exit the function if data is available
+        return
+      }
+    } catch (error) {
+      console.error('Error fetching admin data:', error)
+    }
+
+    console.log(adminn.value ? adminn.value.length : 'No data')
+    retries++
+    console.log(retries)
+    await new Promise((resolve) => setTimeout(resolve, retryInterval))
+  }
+
+  console.log('No data available after maximum retries.')
+  dataAvailable.value = true // Set to true even if no data is found to avoid infinite waiting
+}
+
+onMounted(waitForData)
 </script>
 
 <template>
