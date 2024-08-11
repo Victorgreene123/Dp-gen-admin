@@ -61,11 +61,11 @@ watchOnSearchInInput()
 //     console.error('No image to download or image URL is invalid')
 //   }
 // }
-//const certficateData = ref({
- //name : "Simeon",
- //role : "role",
- //type : "type",
-//})
+const certficateData = ref({
+ name : "Simeon",
+ role : "role",
+ type : "type",
+})
 </script>
 
 <template>
@@ -129,11 +129,11 @@ watchOnSearchInInput()
       :name="dpAboutToBeViewd.name"
       :role="dpAboutToBeViewd.role"
     />
-    <!--<CertifiCate-->
-    <!--  :name="certficateData.name"-->
-    <!--  :role="certficateData.role"-->
-    <!--  :type="certficateData.type"-->
-    <!--/>-->
+    <CertifiCate
+      :name="certficateData.name"
+      :role="certficateData.role"
+      :type="certficateData.type"
+    />
   </div>
 </template>
 
