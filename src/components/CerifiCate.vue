@@ -27,9 +27,9 @@ const props = defineProps({
 
 const contentToDownload = ref(null)
 
-const updateCertificateText = () => {
-  return
-}
+<!--const updateCertificateText = () => {-->
+  
+<!--}-->
 
 const downloadAsHTML = async () => {
   if (contentToDownload.value) {
@@ -64,7 +64,7 @@ const downloadAsHTML = async () => {
         />
         <h1 class="certificate_title">{{ type }}</h1>
         <h1 class="certificate_name">{{ name }}</h1>
-        <p class="certificate_text" v-if="certificateText">{{ certificateText }}</p>
+        <p class="certificate_text">{{ certificateText }}</p>
       </div>
       <button class="certificate_btn" @click="downloadAsHTML">Download</button>
     </div>
