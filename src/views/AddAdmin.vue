@@ -17,6 +17,7 @@ const router = useRouter()
 // setup to add admin
 
 //setupAddAdmin()
+isAddAdmin()
 
 if (adminData.isAdded) {
   router.push('/manage-admins')
@@ -24,24 +25,24 @@ if (adminData.isAdded) {
 </script>
 
 <template>
-  <!--<div class="signup">-->
-  <!--  <h1>Add Admin</h1>-->
-  <!--  <form novalidate @submit.prevent="addAdmin">-->
-  <!--    <small></small>-->
-  <!--    <input v-model="fullname" type="text" placeholder="Name" required />-->
-  <!--    <input v-model="email" type="email" placeholder="Email" required />-->
-  <!--    <input v-model="password" type="password" placeholder="Password" required />-->
-  <!--    <button-->
-  <!--      type="submit"-->
-  <!--      @click=isAddAdmin"-->
-  <!--      :class="{ isAddAdmin: adminInnerText === 'Adding Admin...' }"-->
-  <!--      :disabled="disableBtn"-->
-  <!--    >-->
-  <!--      {{ adminInnerText }}-->
-  <!--    </button>-->
-  <!--  </form>-->
-  <!--</div>-->
-  <h1>Hello</h1>
+  <div class="signup">
+  <h1>Add Admin</h1>
+  <form novalidate @submit.prevent="addAdmin">
+    <small></small>
+    <input v-model="fullname" type="text" placeholder="Name" required />
+    <input v-model="email" type="email" placeholder="Email" required />
+    <input v-model="password" type="password" placeholder="Password" required />
+    <button
+      type="submit"
+      @click="isAddAdmin"
+      :class="{ isAddAdmin: adminInnerText === 'Adding Admin...' }"
+      :disabled="disableBtn"
+    >
+      {{ adminInnerText }}
+    </button>
+  </form>
+</div>
+  
 </template>
 
 <style scoped>
