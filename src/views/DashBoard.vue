@@ -29,14 +29,14 @@ const waitForData = async () => {
     if (filteredResults.value.length > 0) {
     
    // filteredResults is an array of objects with 'date' and 'time' properties
-   mostRecentData.value = filteredResults.value.sort((a, b) => {
-   const dateTimeA = new Date(`${a.date}T${a.time}`);
-   const dateTimeB = new Date(`${b.date}T${b.time}`);
-   return dateTimeB - dateTimeA; // Sort in descending order
+mostRecentData.value = filteredResults.value
+  .sort((a, b) => {
+    const dateTimeA = new Date(`${a.date}T${a.time}`);
+    const dateTimeB = new Date(`${b.date}T${b.time}`);
+    return dateTimeB - dateTimeA; // Ensure newest first
   })
-  .slice(0, 10); // Get the most recent 10 items
-
-console.log(mostRecentData.value)
+  .slice(0, 10); // Get only the newest 10 items
+  console.log(mostRecentData.value);
       // Count the number of each type
       const counts = filteredResults.value.reduce(
         (acc, item) => {
