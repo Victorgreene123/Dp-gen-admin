@@ -130,24 +130,6 @@ const cardMessage = ref({
               <p>{{item.type_name}}</p>
               <p>{{item.created_at}}</p>
             </div>
-            <div class="row">
-              <p>Mae Doe</p>
-              <p>Certificate Flyer</p>
-              <p>2024-2-20</p>
-              <p>Generated</p>
-            </div>
-            <div class="row">
-              <p>John Doe</p>
-              <p>Birthday Flyer</p>
-              <p>2024-06-20</p>
-              <p>Generated</p>
-            </div>
-            <div class="row">
-              <p>Mae Doe</p>
-              <p>Certificate Flyer</p>
-              <p>2024-2-20</p>
-              <p>Generated</p>
-            </div>
           </div>
         </div>
       </div>
