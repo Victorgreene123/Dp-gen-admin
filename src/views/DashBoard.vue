@@ -33,7 +33,7 @@ mostRecentData.value = filteredResults.value
   .sort((a, b) => {
     const dateTimeA = new Date(`${a.date}T${a.time}`);
     const dateTimeB = new Date(`${b.date}T${b.time}`);
-    return dateTimeB - dateTimeA; // Ensure newest first
+    return dateTimeA - dateTimeB; // Ensure newest first
   })
   .slice(0, 10); // Get only the newest 10 items
   console.log(mostRecentData.value);
