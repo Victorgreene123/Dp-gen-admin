@@ -3,30 +3,15 @@ import NavBar from '@/components/NavBar.vue'
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { admin, setupCurrentAdmin } from '../stores/admin.js'
 
 const router = useRouter()
-
-const message = ref('')
-const userData = ref(null)
-
-onMounted(async () => {
-  try {
-    const token = localStorage.getItem('token')
-    const response = await axios.get('https://achilles-web-be.onrender.com/admin/current', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-    message.value = response.data
-    userData.value = response.data
-
-    // console.log(response.data);
-  } catch (error) {
-    message.value = 'You are not authorized to view this page.'
-    console.log(message.value)
-    router.push('/')
-  }
-})
+// set up admin current details
+setupCurrentAdmin()
+if (!admin.isAuthenticated) {
+  // router.push('/')
+}
+console.log(admin)
 </script>
 
 <template>
