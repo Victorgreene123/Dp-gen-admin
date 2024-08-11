@@ -129,11 +129,11 @@ const certficateData = ref({
       :name="dpAboutToBeViewd.name"
       :role="dpAboutToBeViewd.role"
     />
-    <CertifiCate
-      :name="certficateData.name"
-      :role="certficateData.role"
-      :type="certficateData.type"
-    />
+    <!--<CertifiCate-->
+    <!--  :name="certficateData.name"-->
+    <!--  :role="certficateData.role"-->
+    <!--  :type="certficateData.type"-->
+    <!--/>-->
   </div>
 </template>
 
