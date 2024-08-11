@@ -66,9 +66,7 @@ watchOnSearchInInput()
  //role : "role",
  //type : "type",
 //})
-<!--const name = filteredResults.value.fullname-->
-<!--const role = filteredResults.value.role-->
-<!--const type = filteredResults.value.caption-->
+console.log(dpAboutToBeViewd.value)
 </script>
 
 <template>
@@ -132,12 +130,12 @@ watchOnSearchInInput()
       :name="dpAboutToBeViewd.name"
       :role="dpAboutToBeViewd.role"
     />
-    <CertifiCate
-      v-else
-      :type="dpAboutToBeViewd.caption"
-      :name="dpAboutToBeViewd.name"
-      :role="dpAboutToBeViewd.role"
-    />
+    <!--<CertifiCate-->
+    <!--  v-else-->
+    <!--  :type="dpAboutToBeViewd.caption"-->
+    <!--  :name="dpAboutToBeViewd.name"-->
+    <!--  :role="dpAboutToBeViewd.role"-->
+    <!--/>-->
   </div>
 </template>
 
