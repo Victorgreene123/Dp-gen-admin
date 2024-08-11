@@ -135,6 +135,7 @@ console.log(dpAboutToBeViewd.value)
       :type="dpAboutToBeViewd.caption"
       :name="dpAboutToBeViewd.name"
       :role="dpAboutToBeViewd.role"
+      :certificateText="dpAboutToBeViewd.role"
     />
   </div>
 </template>
