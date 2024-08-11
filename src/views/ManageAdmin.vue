@@ -18,6 +18,7 @@ console.log(admin)
 setupAllAdmin()
 
 const dataAvailable = ref(false)
+const maxRetries = 20
 let adminn = ref('')
 
 const waitForData = async () => {
