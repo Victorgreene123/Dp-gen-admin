@@ -126,7 +126,8 @@ const viewImage = async (id) => {
     dpAboutToBeViewd.value = {
       img: user.photo || '',
       name: user.fullname || '',
-      role: user.role || ''
+      role: user.role || '',
+      caption: user.caption || ''
     }
   } catch (error) {
     console.error(error)
