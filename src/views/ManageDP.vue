@@ -1,7 +1,7 @@
 <script setup>
 import NavBar from '@/components/NavBar.vue'
 import Pagination from '@/components/PagiNation.vue'
-//import CertifiCate from '@/components/CerifiCate.vue'
+import CertifiCate from '@/components/CerifiCate.vue'
 
 import { useRouter } from 'vue-router'
 import birthdayCarousel from '@/components/birthday/birthdayCarousel.vue'
@@ -66,6 +66,10 @@ watchOnSearchInInput()
  //role : "role",
  //type : "type",
 //})
+const name = "name"
+const role = "role"
+const type = "ty"
+
 </script>
 
 <template>
@@ -129,11 +133,11 @@ watchOnSearchInInput()
       :name="dpAboutToBeViewd.name"
       :role="dpAboutToBeViewd.role"
     />
-    <!--<CertifiCate-->
-    <!--  :name="certficateData.name"-->
-    <!--  :role="certficateData.role"-->
-    <!--  :type="certficateData.type"-->
-    <!--/>-->
+    <CertifiCate
+      :name="name"
+      :role="role"
+      :type="type"
+    />
   </div>
 </template>
 
