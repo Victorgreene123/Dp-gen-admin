@@ -122,12 +122,12 @@ const cardMessage = ref({
             <h4>Name</h4>
             <h4>Type</h4>
             <h4>Date Generated</h4>
-            <h4>Status</h4>
           </div>
           <div class="body">
             <div class="row" v-for="item in mostRecentData" :key="item.id">
               <p>{{item.fullname}}</p>
-              <p>{{item.type_name}}</p>
+                <p v-if="item.type_name === 'certificate'">cer</p>
+              <p v-else>bir</p>
               <p>{{item.created_at}}</p>
             </div>
           </div>
