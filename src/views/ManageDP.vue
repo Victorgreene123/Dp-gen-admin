@@ -134,6 +134,7 @@ const type = "ty"
       :role="dpAboutToBeViewd.role"
     />
     <CertifiCate
+      v-else
       :name="name"
       :role="role"
       :type="type"
