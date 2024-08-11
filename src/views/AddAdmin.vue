@@ -15,7 +15,10 @@ import {
 const router = useRouter()
 
 // setup to add admin
-setupAddAdmin()
+
+//setupAddAdmin()
+isAddAdmin()
+
 if (adminData.isAdded) {
   router.push('/manage-admins')
 }
@@ -31,7 +34,7 @@ if (adminData.isAdded) {
       <input v-model="password" type="password" placeholder="Password" required />
       <button
         type="submit"
-        @click="isAddAdmin"
+        @click=isAddAdmin"
         :class="{ isAddAdmin: adminInnerText === 'Adding Admin...' }"
         :disabled="disableBtn"
       >
