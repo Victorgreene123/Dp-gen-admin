@@ -1,28 +1,28 @@
-<!--<script setup>-->
-<!--import { useRouter } from 'vue-router'-->
-<!--import {-->
-<!--  addAdmin,-->
-<!--  adminData,-->
-<!--  adminInnerText,-->
-<!--  disableBtn,-->
-<!--  email,-->
-<!--  fullname,-->
-<!--  isAddAdmin,-->
-<!--  password,-->
-<!--  setupAddAdmin-->
-<!--} from '@/stores/addAdmin'-->
+<script setup>
+import { useRouter } from 'vue-router'
+import {
+  addAdmin,
+  adminData,
+  adminInnerText,
+  disableBtn,
+  email,
+  fullname,
+  isAddAdmin,
+  password,
+  setupAddAdmin
+} from '@/stores/addAdmin'
 
-<!--const router = useRouter()-->
+const router = useRouter()
 
 // setup to add admin
 
 //setupAddAdmin()
 
-<!--if (adminData.isAdded) {-->
-<!--  router.push('/manage-admins')-->
-<!--}-->
-<!--</script>-->
-<script setup></script>
+if (adminData.isAdded) {
+  router.push('/manage-admins')
+}
+</script>
+
 <template>
   <!--<div class="signup">-->
   <!--  <h1>Add Admin</h1>-->
