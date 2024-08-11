@@ -125,11 +125,10 @@ const cardMessage = ref({
             <h4>Status</h4>
           </div>
           <div class="body">
-            <div class="row">
-              <p>John Doe</p>
-              <p>Birthday Flyer</p>
-              <p>2024-06-20</p>
-              <p>Generated</p>
+            <div class="row" v-for="item in mostRecentData" :key="item.id">
+              <p>{{item.fullname}}</p>
+              <p>{{item.type_name}}</p>
+              <p>{{item.created_at}}</p>
             </div>
             <div class="row">
               <p>Mae Doe</p>
