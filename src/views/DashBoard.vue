@@ -29,7 +29,7 @@ const waitForData = async () => {
     if (filteredResults.value.length > 0) {
     
    // filteredResults is an array of objects with 'date' and 'time' properties
-   mostRecentData = filteredResults .sort((a, b) => {
+   mostRecentData = filteredResults.sort((a, b) => {
    const dateTimeA = new Date(`${a.date}T${a.time}`);
    const dateTimeB = new Date(`${b.date}T${b.time}`);
    return dateTimeB - dateTimeA; // Sort in descending order
