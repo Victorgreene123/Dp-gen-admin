@@ -20,12 +20,23 @@ const maxRetries = 10 // Maximum number of retries
 const retryInterval = 1000 // Interval between retries in milliseconds
 
 const dataAvailable = ref(false)
+const mostRecentData = ref([])
 
 const waitForData = async () => {
   let retries = 0
 
   while (retries < maxRetries) {
     if (filteredResults.value.length > 0) {
+    
+   // filteredResults is an array of objects with 'date' and 'time' properties
+   mostRecentData = filteredResults .sort((a, b) => {
+   const dateTimeA = new Date(`${a.date}T${a.time}`);
+   const dateTimeB = new Date(`${b.date}T${b.time}`);
+   return dateTimeB - dateTimeA; // Sort in descending order
+  })
+  .slice(0, 10); // Get the most recent 10 items
+
+console.log(mostRecentData.value)
       // Count the number of each type
       const counts = filteredResults.value.reduce(
         (acc, item) => {
