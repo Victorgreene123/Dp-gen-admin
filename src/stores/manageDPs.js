@@ -20,12 +20,13 @@ const handleBothBirthdayAndCertificate = async () => {
     const birthdayResult = await birthday(birthdayData)
     allBirthday.value = birthdayResult.birthdays
     filteredBirthady.value = allBirthday.value.map(
-      ({ caption, fullname, role, photo, created_at }) => ({
+      ({ caption, fullname, role, photo, created_at, time }) => ({
         caption,
         fullname,
         role,
         photo,
         created_at: new Date(created_at).toISOString().split('T')[0],
+        time: new Date(created_at).toISOString().split('T')[1].split('.')[0],
         type_name: 'birthday'
       })
     )
@@ -33,11 +34,12 @@ const handleBothBirthdayAndCertificate = async () => {
     const certificateResult = await certificate(certificateData)
     allCertificate.value = certificateResult.certificates
     filteredCertificate.value = allCertificate.value.map(
-      ({ caption, fullname, role, created_at }) => ({
+      ({ caption, fullname, role, created_at, time }) => ({
         caption,
         fullname,
         role,
         created_at: new Date(created_at).toISOString().split('T')[0],
+        time: new Date(created_at).toISOString().split('T')[1].split('.')[0],
         type_name: 'certificate'
       })
     )
