@@ -66,9 +66,9 @@ watchOnSearchInInput()
  //role : "role",
  //type : "type",
 //})
-const name = filteredResults.value.fullname
-const role = filteredResults.value.role
-const type = filteredResults.value.caption
+<!--const name = filteredResults.value.fullname-->
+<!--const role = filteredResults.value.role-->
+<!--const type = filteredResults.value.caption-->
 </script>
 
 <template>
@@ -134,9 +134,9 @@ const type = filteredResults.value.caption
     />
     <CertifiCate
       v-else
-      :name="name"
-      :role="role"
-      :type="type"
+      :type="dpAboutToBeViewd.caption"
+      :name="dpAboutToBeViewd.name"
+      :role="dpAboutToBeViewd.role"
     />
   </div>
 </template>
