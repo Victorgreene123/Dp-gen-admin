@@ -202,7 +202,7 @@ h3 {
 .head,
 .row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   margin-bottom: 15px;
 }
 
