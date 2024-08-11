@@ -52,19 +52,19 @@ const updateCertificateText = () => {
   }
 }
 
-const downloadAsHTML = async () => {
-  if (contentToDownload.value) {
-    const canvas = await html2canvas(contentToDownload.value)
-    canvas.toBlob((blob) => {
-      const link = document.createElement('a')
-      link.href = URL.createObjectURL(blob)
-      link.download = 'content.png'
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-    })
-  }
-}
+<!--const downloadAsHTML = async () => {-->
+<!--  if (contentToDownload.value) {-->
+<!--    const canvas = await html2canvas(contentToDownload.value)-->
+<!--    canvas.toBlob((blob) => {-->
+<!--      const link = document.createElement('a')-->
+<!--      link.href = URL.createObjectURL(blob)-->
+<!--      link.download = 'content.png'-->
+<!--      document.body.appendChild(link)-->
+<!--      link.click()-->
+<!--      document.body.removeChild(link)-->
+<!--    })-->
+<!--  }-->
+<!--}-->
 
 onMounted(() => {
   contentToDownload.value = document.querySelector('.certificate_bg')
@@ -113,7 +113,6 @@ onMounted(() => {
 }
 #app::after {
   content: '';
-  background: url('../img/Vectorbackground.svg') no-repeat center center/cover;
   position: absolute;
   top: 0;
   left: 0;
