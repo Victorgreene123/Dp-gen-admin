@@ -66,10 +66,9 @@ watchOnSearchInInput()
  //role : "role",
  //type : "type",
 //})
-const name = "name"
-const role = "role"
-const type = "ty"
-
+const name = ref(filteredResults.value.fullname)
+const role = ref(filteredResults.value.role)
+const type = ref(filteredResults.value.caption)
 </script>
 
 <template>
