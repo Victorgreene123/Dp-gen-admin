@@ -1,5 +1,7 @@
 import axios from 'axios'
+import { useRouter } from 'vue-router'
 import { onMounted, reactive, ref } from 'vue'
+const router = useRouter()
 
 const adminData = reactive({
   message: '',
