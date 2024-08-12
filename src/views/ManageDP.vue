@@ -168,6 +168,7 @@ watchOnSearchInInput()
 
 .view-dp .fa-x {
   position: fixed;
+  z-index: 10;
   top: 40px;
   right: 40px;
   height: 40px;
