@@ -48,17 +48,17 @@ const waitForData = async () => {
 
 onMounted(waitForData)
 
-const deleteUser = async (userId) => {
-  try {
-    await axios.delete('https://achilles-web-be.onrender.com/admin/remove', {
-      data: { _id: userId }
-    })
+<!--const deleteUser = async (userId) => {-->
+<!--  try {-->
+<!--    await axios.delete('https://achilles-web-be.onrender.com/admin/remove', {-->
+<!--      data: { _id: userId }-->
+<!--    })-->
     
-    console.log('User deleted successfully')
-  } catch (error) {
-    console.error('Failed to delete user:', error)
-  }
-}
+<!--    console.log('User deleted successfully')-->
+<!--  } catch (error) {-->
+<!--    console.error('Failed to delete user:', error)-->
+<!--  }-->
+<!--}-->
 
 </script>
 
@@ -87,7 +87,7 @@ const deleteUser = async (userId) => {
               <p>{{item.fullname}}</p>
               <p>{{item.email}}</p>
               <p>{{item.role}}</p>
-              <button  @click="deleteUser(item._id)">Delete</button>
+              <button>Delete</button>
             </div>
           </div>
         </div>
