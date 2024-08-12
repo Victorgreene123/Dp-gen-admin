@@ -66,7 +66,7 @@ watchOnSearchInInput()
  //role : "role",
  //type : "type",
 //})
-switch (dpAboutToBeViewd.value.caption.toLowerCase()) {
+switch (dpAboutToBeViewd.value.caption) {
     case 'certificate of service':
       dpAboutToBeViewd.value.certificateText = `For his role as {} with Achilles Drill, having been a dynamic and dedicated member of the team. Your commitment and contributions are highly valued and appreciated.`
       break
