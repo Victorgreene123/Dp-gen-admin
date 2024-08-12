@@ -48,24 +48,23 @@ const waitForData = async () => {
 
 onMounted(waitForData)
 
-<!--const deleteUser = async (userId) => {-->
-<!--  try {-->
-<!--    await axios.delete('https://achilles-web-be.onrender.com/admin/remove', {-->
-<!--      data: { _id: userId }-->
-<!--    })-->
+const deleteUser = async (userId) => {
+  try {
+    // Sending DELETE request to the API
+    await axios.delete(`https://achilles-web-be.onrender.com/admin/remove/${userId}`)
     
-<!--    console.log('User deleted successfully')-->
-<!--  } catch (error) {-->
-<!--    console.error('Failed to delete user:', error)-->
-<!--  }-->
-<!--}-->
-
-</script>
+    // Remove the user from the users array after successful deletion
+    adminn.value = adminn.value.filter(admin => admin._id !== userId)
+    console.log('User deleted successfully')
+  } catch (error) {
+    console.error('Failed to delete user:', error)
+  }
+}
 
 </script>
 
 <template>
-  <NavBar/>
+  <NavBar :userData="userData" />
   <div class="main-content">
     <div class="manageadmin-container">
       <div class="title">
@@ -80,14 +79,14 @@ onMounted(waitForData)
             <h4>Name</h4>
             <h4>Email</h4>
             <h4>Role</h4>
-            <h4>Action</h4>
+            <!--<h4>Action</h4>-->
           </div>
           <div class="body">
             <div class="row" v-for="item in adminn" :key="item._id">
               <p>{{item.fullname}}</p>
               <p>{{item.email}}</p>
               <p>{{item.role}}</p>
-              <button>Delete</button>
+              <!--<button  @click="deleteUser(item._id)">Delete</button>-->
             </div>
           </div>
         </div>
@@ -137,7 +136,7 @@ onMounted(waitForData)
 .head,
 .row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-gap: 1em;
   margin-bottom: 15px;
 }
