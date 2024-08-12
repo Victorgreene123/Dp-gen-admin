@@ -47,6 +47,20 @@ const waitForData = async () => {
 }
 
 onMounted(waitForData)
+
+const deleteUser = async (userId) => {
+  try {
+    // Sending DELETE request to the API
+    await axios.delete(`https://achilles-web-be.onrender.com/admin/remove/${userId}`)
+    
+    // Remove the user from the users array after successful deletion
+    adminn.value = adminn.value.filter(admin => admin._id !== userId)
+    console.log('User deleted successfully')
+  } catch (error) {
+    console.error('Failed to delete user:', error)
+  }
+}
+
 </script>
 
 <template>
@@ -65,12 +79,14 @@ onMounted(waitForData)
             <h4>Name</h4>
             <h4>Email</h4>
             <h4>Role</h4>
+            <h4>Action</h4>
           </div>
           <div class="body">
             <div class="row" v-for="item in adminn" :key="item._id">
               <p>{{item.fullname}}</p>
               <p>{{item.email}}</p>
               <p>{{item.role}}</p>
+              <button  @click="deleteUser(item._id)">Delete</button>
             </div>
           </div>
         </div>
