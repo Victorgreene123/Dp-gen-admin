@@ -125,7 +125,7 @@ const viewImage = async (id) => {
       isBirthday.value = false
     }
     
-    switch (user.caption) {
+    switch (user.caption.toLowerCase()) {
     case 'certificate of service':
       user.text = `For his role as {} with Achilles Drill, having been a dynamic and dedicated member of the team. Your commitment and contributions are highly valued and appreciated.`
       break
