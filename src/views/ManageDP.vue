@@ -37,7 +37,7 @@ setuphandleBothBirthdayAndCertificate()
 // watch for input when searching
 watchOnSearchInInput()
 
-console.log(dpAboutToBeViewd.value)
+
 // DOWNLOAD BIRTHDAY
 // const downloadImage = async () => {
 //   // if (selectedUser.value && selectedUser.value.photo) {
@@ -66,25 +66,7 @@ console.log(dpAboutToBeViewd.value)
  //role : "role",
  //type : "type",
 //})
-switch (dpAboutToBeViewd.value.caption) {
-    case 'certificate of service':
-      dpAboutToBeViewd.value.certificateText = `For his role as {} with Achilles Drill, having been a dynamic and dedicated member of the team. Your commitment and contributions are highly valued and appreciated.`
-      break
-    case 'certificate of excellence':
-    dpAboutToBeViewd.value.certificateText = 'For outstanding performance and exceptional contributions to Achilles Drill. Your excellence in executing tasks and your unwavering dedication have set a high standard for others.'
-      break
-    case 'certificate of achievement':
-      dpAboutToBeViewd.value.certificateText = 'In recognition of your significant achievements and exceptional performance at Achilles Drill. Your hard work and perseverance have greatly contributed to the success of the team.'
-      break
-    case 'certificate of appreciation':
-      dpAboutToBeViewd.value.certificateText = 'In gratitude for your invaluable contributions and unwavering support to Achilles Drill. Your dedication and hard work are truly appreciated and have made a remarkable difference.'
-      break
-    case 'certificate of recognition':
-      dpAboutToBeViewd.value.certificateText = 'In recognition of your exceptional skills and outstanding dedication to Achilles Drill. Your consistent efforts and professional excellence have greatly benefited the organization.'
-      break
-    default:
-      dpAboutToBeViewd.value.certificateText = ''
-  }
+
 </script>
 
 <template>
