@@ -127,7 +127,7 @@ const viewImage = async (id) => {
     
     switch (user.caption.toLowerCase()) {
     case 'certificate of service':
-      user.text = `For his role as {} with Achilles Drill, having been a dynamic and dedicated member of the team. Your commitment and contributions are highly valued and appreciated.`
+      user.text = `For his role as ${user.role} with Achilles Drill, having been a dynamic and dedicated member of the team. Your commitment and contributions are highly valued and appreciated.`
       break
     case 'certificate of excellence':
     user.text  = 'For outstanding performance and exceptional contributions to Achilles Drill. Your excellence in executing tasks and your unwavering dedication have set a high standard for others.'
@@ -142,7 +142,7 @@ const viewImage = async (id) => {
       user.text  = 'In recognition of your exceptional skills and outstanding dedication to Achilles Drill. Your consistent efforts and professional excellence have greatly benefited the organization.'
       break
     default:
-      user.text  = 'not'
+      user.text  = ''
   }
   
     dpAboutToBeViewd.value = {
