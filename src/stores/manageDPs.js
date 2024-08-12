@@ -34,12 +34,13 @@ const handleBothBirthdayAndCertificate = async () => {
     const certificateResult = await certificate(certificateData)
     allCertificate.value = certificateResult.certificates
     filteredCertificate.value = allCertificate.value.map(
-      ({ caption, fullname, role, created_at, time }) => ({
+      ({ caption, fullname, role, created_at, time, text }) => ({
         caption,
         fullname,
         role,
         created_at: new Date(created_at).toISOString().split('T')[0],
         time: new Date(created_at).toISOString().split('T')[1].split('.')[0],
+        text: '',
         type_name: 'certificate'
       })
     )
@@ -123,12 +124,33 @@ const viewImage = async (id) => {
     } else {
       isBirthday.value = false
     }
+    
+    switch (user.caption) {
+    case 'certificate of service':
+      user.text = `For his role as {} with Achilles Drill, having been a dynamic and dedicated member of the team. Your commitment and contributions are highly valued and appreciated.`
+      break
+    case 'certificate of excellence':
+    user.text  = 'For outstanding performance and exceptional contributions to Achilles Drill. Your excellence in executing tasks and your unwavering dedication have set a high standard for others.'
+      break
+    case 'certificate of achievement':
+      user.text  = 'In recognition of your significant achievements and exceptional performance at Achilles Drill. Your hard work and perseverance have greatly contributed to the success of the team.'
+      break
+    case 'certificate of appreciation':
+      user.text  = 'In gratitude for your invaluable contributions and unwavering support to Achilles Drill. Your dedication and hard work are truly appreciated and have made a remarkable difference.'
+      break
+    case 'certificate of recognition':
+      user.text  = 'In recognition of your exceptional skills and outstanding dedication to Achilles Drill. Your consistent efforts and professional excellence have greatly benefited the organization.'
+      break
+    default:
+      user.text  = 'not'
+  }
+  
     dpAboutToBeViewd.value = {
       img: user.photo || '',
       name: user.fullname || '',
       role: user.role || '',
       caption: user.caption || '',
-      certificateText: user.certificateText || ''
+      certificateText: user.text || ''
     }
   } catch (error) {
     console.error(error)
