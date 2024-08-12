@@ -65,7 +65,7 @@ onMounted(waitForData)
 </script>
 
 <template>
-  <NavBar :userData="userData" />
+  <NavBar/>
   <div class="main-content">
     <div class="manageadmin-container">
       <div class="title">
