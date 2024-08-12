@@ -37,7 +37,7 @@ setuphandleBothBirthdayAndCertificate()
 // watch for input when searching
 watchOnSearchInInput()
 
-
+console.log(dpAboutToBeViewd.value)
 // DOWNLOAD BIRTHDAY
 // const downloadImage = async () => {
 //   // if (selectedUser.value && selectedUser.value.photo) {
