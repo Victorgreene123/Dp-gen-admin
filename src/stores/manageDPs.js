@@ -116,6 +116,7 @@ const selectedUser = ref([])
 const isBirthday = ref(false)
 const viewImage = async (id) => {
   try {
+    console.log(viewDP.value)
     const user = joinBothDataTogrther.value.find((item) => item.id === id)
     selectedUser.value = user
     viewDP.value = true
