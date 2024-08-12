@@ -79,14 +79,14 @@ const deleteUser = async (userId) => {
             <h4>Name</h4>
             <h4>Email</h4>
             <h4>Role</h4>
-            <h4>Action</h4>
+            <!--<h4>Action</h4>-->
           </div>
           <div class="body">
             <div class="row" v-for="item in adminn" :key="item._id">
               <p>{{item.fullname}}</p>
               <p>{{item.email}}</p>
               <p>{{item.role}}</p>
-              <button  @click="deleteUser(item._id)">Delete</button>
+              <!--<button  @click="deleteUser(item._id)">Delete</button>-->
             </div>
           </div>
         </div>
