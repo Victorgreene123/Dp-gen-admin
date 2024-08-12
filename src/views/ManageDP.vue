@@ -90,17 +90,18 @@ watchOnSearchInInput()
             <h4>Name</h4>
             <h4>Type</h4>
             <h4>Date</h4>
-            <h4>View</h4>
+            <!--<h4>View</h4>-->
           </div>
           <div class="body">
-            <div class="row" v-for="item in paginatedItems" :key="item.id">
+            <div class="row" v-for="item in paginatedItems" :key="item.id" @click="viewImage(item.id)">
               <p>
                 {{ item.fullname }}
               </p>
-              <p v-if="item.type_name === 'certificate'">cer</p>
-              <p v-else>bir</p>
+              <!--<p v-if="item.type_name === 'certificate'">cer</p>-->
+              <!--<p v-else>bir</p>-->
+              <p>{{ item.type_name }}</p>
               <p>{{ item.created_at }}</p>
-              <button class="viewBtn" @click="viewImage(item.id)">View</button>
+              <!--<button class="viewBtn" @click="viewImage(item.id)">View</button>-->
             </div>
             <Pagination
               :totalItems="filteredResults.length"
@@ -309,7 +310,7 @@ input[type='date']:focus {
 .head,
 .row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   margin-bottom: 15px;
 }
 
@@ -321,6 +322,7 @@ input[type='date']:focus {
 .row {
   border-bottom: 1px solid #ddd;
   padding: 10px 0;
+  cursor: pointer;
 }
 
 .row p {
