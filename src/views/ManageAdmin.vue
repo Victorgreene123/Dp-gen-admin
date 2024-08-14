@@ -49,16 +49,7 @@ const waitForData = async () => {
 onMounted(waitForData)
 
 const deleteUser = async (userId) => {
-try {
-    // Sending DELETE request to the API with userId in the request body
-    await axios.delete('https://achilles-web-be.onrender.com/admin/remove', {
-      data: { _id: userId }
-    })
-    
-    console.log('User deleted successfully')
-  } catch (error) {
-    console.error('Failed to delete user:', error)
-  }
+ console.log(userId)
 }
 
 </script>
