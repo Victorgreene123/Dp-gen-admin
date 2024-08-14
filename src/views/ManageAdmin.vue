@@ -139,7 +139,7 @@ const deleteUser = async (userId) => {
 .head,
 .row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-gap: 1em;
   margin-bottom: 15px;
 }
@@ -166,12 +166,20 @@ const deleteUser = async (userId) => {
 
 .add-admin a {
   padding: 12px 20px;
+  background: var(--red-1);
+  color: #fff;
+  border-radius: 20px;
+  font-family: 'Montserrat';
+}
+
+.del{
+padding: 8px 12px;
   background: #000;
   color: #fff;
   border-radius: 20px;
   font-family: 'Montserrat';
   box-shadow: 2px 2px 2px rgba(255, 255, 255, 0.4);
-}
+  }
 @media (min-width: 768px) {
   .main-content {
     width: 75vw;
