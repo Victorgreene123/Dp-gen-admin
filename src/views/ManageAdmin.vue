@@ -88,7 +88,7 @@ const deleteUser = async (userId) => {
               <p>{{item.fullname}}</p>
               <p>{{item.email}}</p>
               <p>{{item.role}}</p>
-              <button  @click="deleteUser(item._id)">Delete</button>
+              <button class="del"  @click="deleteUser(item._id)">Delete</button>
               
             </div>
           </div>
